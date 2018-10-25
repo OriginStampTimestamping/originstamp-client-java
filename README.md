@@ -126,13 +126,7 @@ Class | Method | HTTP request | Description
 ## Documentation for Authorization
 
 Authentication schemes defined for the API:
-### Enterprise Key Authorization
-
-- **Type**: API key
-- **API key parameter name**: Authorization
-- **Location**: HTTP header
-
-### System Key Authorization
+### Key Authorization
 
 - **Type**: API key
 - **API key parameter name**: Authorization
