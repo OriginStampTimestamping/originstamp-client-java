@@ -32,10 +32,10 @@ for Maven, add the following sections to your pom.xml (replacing $LATEST_VERSION
   </repositories>
   
   <dependency>
-	    <groupId>com.github.OriginStampTimestamping</groupId>
-	    <artifactId>originstamp-client-java</artifactId>
-	    <version>Tag</version>
-	</dependency>
+    <groupId>com.github.OriginStampTimestamping</groupId>
+    <artifactId>originstamp-client-java</artifactId>
+    <version>Tag</version>
+  </dependency>
   
 ```
 
