@@ -1,0 +1,11 @@
+# environment
+language: java
+jdk:
+  - oraclejdk8
+
+branches:
+  only:
+    - master
+
+script:
+  - mvn clean install
