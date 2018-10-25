@@ -41,6 +41,7 @@ for Maven, add the following sections to your pom.xml (replacing $LATEST_VERSION
 ```
 
 ### Building
+Building the API client library requires [Maven](https://maven.apache.org/) to be installed.
 
 * Clone this repository
 * Add the maven dependency
