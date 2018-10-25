@@ -1,4 +1,3 @@
-# originstamp-java-client
 # originstamp-client-java
 
 ![](https://originstamp.org/assets/images/logo.svg)
