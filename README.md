@@ -1,6 +1,6 @@
 # originstamp-client-java
 
-![](https://originstamp.org/assets/images/logo.svg)
+![](https://originstamp.com/assets/images/logo/logo_simple_small.png)
 
 > A Java implementation of the OriginStamp api
 
