@@ -35,7 +35,7 @@ For Maven, add the following sections to your pom.xml (replacing $LATEST_VERSION
   <dependency>
     <groupId>com.github.OriginStampTimestamping</groupId>
     <artifactId>originstamp-client-java</artifactId>
-    <version>Tag</version>
+    <version>$LATEST_VERSION</version>
   </dependency>
   
 ```
