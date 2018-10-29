@@ -3,7 +3,7 @@
 
 ![](https://originstamp.com/assets/images/logo/logo_simple_small.png)
 
-> A Java implementation of the OriginStamp api
+> A Java implementation of the OriginStamp API
 
 ## Table of Contents
 
@@ -23,7 +23,7 @@ You can use this project by including `OriginStamp4J.jar` from one of the [relea
 
 Package managers are supported through [JitPack](https://jitpack.io/#OriginStampTimestamping/originstamp-client-java/) which supports Maven, Gradle, SBT, etc.
 
-for Maven, add the following sections to your pom.xml (replacing $LATEST_VERSION):
+For Maven, add the following sections to your pom.xml (replacing $LATEST_VERSION):
 ```
   <repositories>
     <repository>
