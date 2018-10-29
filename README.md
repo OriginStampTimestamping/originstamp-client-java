@@ -47,8 +47,6 @@ Building the API client library requires [Maven](https://maven.apache.org/) to b
 * Add the maven dependency
 * mvn clean install
 
-### Running tests
-
 ### OriginStamp
 
 OriginStamp.com can be used to prove the existence of a record at a specific point in time.
@@ -62,27 +60,26 @@ Please follow the [installation](#installation) instruction and execute the foll
 
 ```java
 
-import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.OverviewApi;
+import com.originstamp.api.client.*;
+import com.originstamp.api.client.auth.*;
+import com.originstamp.model.*;
+import com.originstamp.api.SchedulerApi;
 
 import java.io.File;
 import java.util.*;
 
-public class OverviewApiExample {
+public class SchedulerApiExample {
 
     public static void main(String[] args) {
-        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
-        OverviewApi apiInstance = new OverviewApi();
+        SchedulerApi apiInstance = new SchedulerApi();
+        SchedulerRequest schedulerRequest = new SchedulerRequest(); // SchedulerRequest | Request DTO for next schedules.
         String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
-        TimestampRequest timestampRequest = new TimestampRequest(); // TimestampRequest | DTO for the hash submission. Add all relevant information concerning your hash submission.
         try {
-            ServiceResponseTimestampResponse result = apiInstance.createTimestampUsingPOST(authorization, timestampRequest);
+            DefaultSchedulerResponse result = apiInstance.getNextSchedulingTime(schedulerRequest, authorization);
             System.out.println(result);
         } catch (ApiException e) {
-            System.err.println("Exception when calling OverviewApi#createTimestampUsingPOST");
+            System.err.println("Exception when calling SchedulerApi#getNextSchedulingTime");
             e.printStackTrace();
         }
     }
@@ -96,31 +93,30 @@ All URIs are relative to *https://api.originstamp.com*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*OverviewApi* | [**createTimestampUsingPOST**](docs/OverviewApi.md#createTimestampUsingPOST) | **POST** /v3/timestamp/create | Submission
-*OverviewApi* | [**getCurrentApiKeyUsageUsingGET**](docs/OverviewApi.md#getCurrentApiKeyUsageUsingGET) | **GET** /v3/api_key/usage | Usage
-*OverviewApi* | [**getHashStatusUsingGET**](docs/OverviewApi.md#getHashStatusUsingGET) | **GET** /v3/timestamp/{hash_string} | Status
-*OverviewApi* | [**getProofUsingPOST**](docs/OverviewApi.md#getProofUsingPOST) | **POST** /v3/timestamp/proof | Proof
-*ProofApi* | [**getProofUsingPOST**](docs/ProofApi.md#getProofUsingPOST) | **POST** /v3/timestamp/proof | Proof
-*SchedulerControllerApi* | [**getSchedulerInformationUsingPOST**](docs/SchedulerControllerApi.md#getSchedulerInformationUsingPOST) | **POST** /v3/submission/times | getSchedulerInformation
-*StatusApi* | [**getHashStatusUsingGET**](docs/StatusApi.md#getHashStatusUsingGET) | **GET** /v3/timestamp/{hash_string} | Status
-*SubmissionApi* | [**createTimestampUsingPOST**](docs/SubmissionApi.md#createTimestampUsingPOST) | **POST** /v3/timestamp/create | Submission
-*UsageApi* | [**getCurrentApiKeyUsageUsingGET**](docs/UsageApi.md#getCurrentApiKeyUsageUsingGET) | **GET** /v3/api_key/usage | Usage
+*SchedulerApi* | [**getNextSchedulingTime**](docs/SchedulerApi.md#getNextSchedulingTime) | **POST** /v3/submission/times | NextSchedule
+*TimestampApi* | [**createTimestamp**](docs/TimestampApi.md#createTimestamp) | **POST** /v3/timestamp/create | Submission
+*TimestampApi* | [**getApiKeyUsage**](docs/TimestampApi.md#getApiKeyUsage) | **GET** /v3/api_key/usage | Usage
+*TimestampApi* | [**getHashStatus**](docs/TimestampApi.md#getHashStatus) | **GET** /v3/timestamp/{hash_string} | Status
+*TimestampApi* | [**getProof**](docs/TimestampApi.md#getProof) | **POST** /v3/timestamp/proof | Proof
+*TimestampApi* | [**triggerTimestampWebhook**](docs/TimestampApi.md#triggerTimestampWebhook) | **POST** /v3/webhook/start | Dev
 
 
 ## Documentation for Models
 
+ - [DefaultSchedulerResponse](docs/DefaultSchedulerResponse.md)
+ - [DefaultTimestampResponse](docs/DefaultTimestampResponse.md)
+ - [DefaultUsageResponse](docs/DefaultUsageResponse.md)
+ - [Defaultstring](docs/Defaultstring.md)
  - [Notification](docs/Notification.md)
  - [ProofRequest](docs/ProofRequest.md)
  - [ResponseEntity](docs/ResponseEntity.md)
- - [SchedulerInformationRequestDTO](docs/SchedulerInformationRequestDTO.md)
- - [SchedulerInformationResponseDTO](docs/SchedulerInformationResponseDTO.md)
- - [ServiceResponseSchedulerInformationResponseDTO](docs/ServiceResponseSchedulerInformationResponseDTO.md)
- - [ServiceResponseTimestampResponse](docs/ServiceResponseTimestampResponse.md)
- - [ServiceResponseUsageDTO](docs/ServiceResponseUsageDTO.md)
+ - [SchedulerRequest](docs/SchedulerRequest.md)
+ - [SchedulerResponse](docs/SchedulerResponse.md)
  - [TimestampData](docs/TimestampData.md)
  - [TimestampRequest](docs/TimestampRequest.md)
  - [TimestampResponse](docs/TimestampResponse.md)
- - [UsageDTO](docs/UsageDTO.md)
+ - [UsageResponse](docs/UsageResponse.md)
+ - [WebhookRequest](docs/WebhookRequest.md)
 
 
 ## Documentation for Authorization
@@ -138,9 +134,6 @@ Authentication schemes defined for the API:
 It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issues.
 
 
-## Contribute
+## Author
 
-
-## License
-
-[MIT](LICENSE)
+mail@originstamp.com
