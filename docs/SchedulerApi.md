@@ -45,10 +45,6 @@ Name | Type | Description  | Notes
 
 [**DefaultSchedulerResponse**](DefaultSchedulerResponse.md)
 
-### Authorization
-
-No authorization required
-
 ### HTTP request headers
 
  - **Content-Type**: application/json
