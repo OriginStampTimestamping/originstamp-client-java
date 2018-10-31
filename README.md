@@ -17,7 +17,7 @@
 
 ### Official releases
 
-You can use this project by including `OriginStamp4J.jar` from one of the [releases](https://github.com/OriginStampTimestamping/originstamp-client-java/releases).
+You can use this project by downloading the .zip file from one of the [releases](https://github.com/OriginStampTimestamping/originstamp-client-java/releases).
 
 ### Maven, Gradle, SBT
 
