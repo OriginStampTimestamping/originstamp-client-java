@@ -1,6 +1,6 @@
 /*
  * OriginStamp Documentation
- * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table>
+ * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table><br/><h2>Common Problems</h2><ul><li>Make sure you set the Authorization with your API key</li><li>If a cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
  *
  * OpenAPI spec version: 3.0
  * Contact: mail@originstamp.com
@@ -31,7 +31,6 @@ import com.originstamp.model.DefaultTimestampResponse;
 import com.originstamp.model.DefaultUsageResponse;
 import com.originstamp.model.Defaultstring;
 import com.originstamp.model.ProofRequest;
-import com.originstamp.model.ResponseEntity;
 import com.originstamp.model.TimestampRequest;
 import com.originstamp.model.WebhookRequest;
 
@@ -133,7 +132,7 @@ public class TimestampApi {
 
     /**
      * Submission
-     * You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever).
+     * You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false and the notification(s) of the current request will be totally ignored. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). The webhook is triggered as soon as the tamper-proof timestamp with the selected crypto currency has been created. Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever). 
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param timestampRequest DTO for the hash submission. Add all relevant information concerning your hash submission. (required)
      * @return DefaultTimestampResponse
@@ -146,7 +145,7 @@ public class TimestampApi {
 
     /**
      * Submission
-     * You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever).
+     * You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false and the notification(s) of the current request will be totally ignored. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). The webhook is triggered as soon as the tamper-proof timestamp with the selected crypto currency has been created. Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever). 
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param timestampRequest DTO for the hash submission. Add all relevant information concerning your hash submission. (required)
      * @return ApiResponse&lt;DefaultTimestampResponse&gt;
@@ -160,7 +159,7 @@ public class TimestampApi {
 
     /**
      * Submission (asynchronously)
-     * You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever).
+     * You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false and the notification(s) of the current request will be totally ignored. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). The webhook is triggered as soon as the tamper-proof timestamp with the selected crypto currency has been created. Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever). 
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param timestampRequest DTO for the hash submission. Add all relevant information concerning your hash submission. (required)
      * @param callback The callback to be executed when the API call finishes
@@ -524,41 +523,41 @@ public class TimestampApi {
 
     /**
      * Proof
-     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found &lt;a href&#x3D;\&quot;https://github.com/OriginStampTimestamping/originstamp-verification\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt; .Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time.As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.
+     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found herehttps://github.com/OriginStampTimestamping/originstamp-verification . Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time. As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.  The file name can be found in the header of the response. An example could look like this: content-disposition: attachment; filename&#x3D;\&quot;certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf\&quot; A sample XML file can be found here https://originstamp.org/assets/proof/proof_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.xml and a sample PDF can be found here https://originstamp.org/assets/proof/certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf .
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param proofRequest Information needed to return the hash status information. (required)
-     * @return ResponseEntity
+     * @return byte[]
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ResponseEntity getProof(String authorization, ProofRequest proofRequest) throws ApiException {
-        ApiResponse<ResponseEntity> resp = getProofWithHttpInfo(authorization, proofRequest);
+    public byte[] getProof(String authorization, ProofRequest proofRequest) throws ApiException {
+        ApiResponse<byte[]> resp = getProofWithHttpInfo(authorization, proofRequest);
         return resp.getData();
     }
 
     /**
      * Proof
-     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found &lt;a href&#x3D;\&quot;https://github.com/OriginStampTimestamping/originstamp-verification\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt; .Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time.As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.
+     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found herehttps://github.com/OriginStampTimestamping/originstamp-verification . Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time. As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.  The file name can be found in the header of the response. An example could look like this: content-disposition: attachment; filename&#x3D;\&quot;certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf\&quot; A sample XML file can be found here https://originstamp.org/assets/proof/proof_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.xml and a sample PDF can be found here https://originstamp.org/assets/proof/certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf .
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param proofRequest Information needed to return the hash status information. (required)
-     * @return ApiResponse&lt;ResponseEntity&gt;
+     * @return ApiResponse&lt;byte[]&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<ResponseEntity> getProofWithHttpInfo(String authorization, ProofRequest proofRequest) throws ApiException {
+    public ApiResponse<byte[]> getProofWithHttpInfo(String authorization, ProofRequest proofRequest) throws ApiException {
         com.squareup.okhttp.Call call = getProofValidateBeforeCall(authorization, proofRequest, null, null);
-        Type localVarReturnType = new TypeToken<ResponseEntity>(){}.getType();
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * Proof (asynchronously)
-     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found &lt;a href&#x3D;\&quot;https://github.com/OriginStampTimestamping/originstamp-verification\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt; .Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time.As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.
+     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found herehttps://github.com/OriginStampTimestamping/originstamp-verification . Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time. As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.  The file name can be found in the header of the response. An example could look like this: content-disposition: attachment; filename&#x3D;\&quot;certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf\&quot; A sample XML file can be found here https://originstamp.org/assets/proof/proof_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.xml and a sample PDF can be found here https://originstamp.org/assets/proof/certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf .
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param proofRequest Information needed to return the hash status information. (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getProofAsync(String authorization, ProofRequest proofRequest, final ApiCallback<ResponseEntity> callback) throws ApiException {
+    public com.squareup.okhttp.Call getProofAsync(String authorization, ProofRequest proofRequest, final ApiCallback<byte[]> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -580,7 +579,7 @@ public class TimestampApi {
         }
 
         com.squareup.okhttp.Call call = getProofValidateBeforeCall(authorization, proofRequest, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<ResponseEntity>(){}.getType();
+        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
@@ -657,7 +656,7 @@ public class TimestampApi {
 
     /**
      * Dev
-     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as &lt;a target&#x3D;\&quot;_target\&quot; href&#x3D;\&quot;https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08\&quot;&gt;9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08&lt;/a&gt;
+     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 . Usually, the webhook is triggered as soon as the tamper-proof time stamp with the selected crypto currency has been created.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param webhookRequest DTO for webhook request. (required)
      * @return Defaultstring
@@ -670,7 +669,7 @@ public class TimestampApi {
 
     /**
      * Dev
-     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as &lt;a target&#x3D;\&quot;_target\&quot; href&#x3D;\&quot;https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08\&quot;&gt;9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08&lt;/a&gt;
+     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 . Usually, the webhook is triggered as soon as the tamper-proof time stamp with the selected crypto currency has been created.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param webhookRequest DTO for webhook request. (required)
      * @return ApiResponse&lt;Defaultstring&gt;
@@ -684,7 +683,7 @@ public class TimestampApi {
 
     /**
      * Dev (asynchronously)
-     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as &lt;a target&#x3D;\&quot;_target\&quot; href&#x3D;\&quot;https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08\&quot;&gt;9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08&lt;/a&gt;
+     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 . Usually, the webhook is triggered as soon as the tamper-proof time stamp with the selected crypto currency has been created.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param webhookRequest DTO for webhook request. (required)
      * @param callback The callback to be executed when the API call finishes

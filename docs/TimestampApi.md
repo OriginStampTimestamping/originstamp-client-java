@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 Submission
 
-You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever).
+You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false and the notification(s) of the current request will be totally ignored. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). The webhook is triggered as soon as the tamper-proof timestamp with the selected crypto currency has been created. Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever). 
 
 ### Example
 ```java
@@ -133,6 +133,7 @@ Name | Type | Description  | Notes
 
 [**DefaultTimestampResponse**](DefaultTimestampResponse.md)
 
+
 ### HTTP request headers
 
  - **Content-Type**: Not defined
@@ -140,11 +141,11 @@ Name | Type | Description  | Notes
 
 <a name="getProof"></a>
 # **getProof**
-> ResponseEntity getProof(authorization, proofRequest)
+> byte[] getProof(authorization, proofRequest)
 
 Proof
 
-This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found &lt;a href&#x3D;\&quot;https://github.com/OriginStampTimestamping/originstamp-verification\&quot; target&#x3D;\&quot;_blank\&quot;&gt;here&lt;/a&gt; .Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time.As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.
+This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found herehttps://github.com/OriginStampTimestamping/originstamp-verification . Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time. As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.  The file name can be found in the header of the response. An example could look like this: content-disposition: attachment; filename&#x3D;\&quot;certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf\&quot; A sample XML file can be found here https://originstamp.org/assets/proof/proof_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.xml and a sample PDF can be found here https://originstamp.org/assets/proof/certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf .
 
 ### Example
 ```java
@@ -157,7 +158,7 @@ TimestampApi apiInstance = new TimestampApi();
 String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
 ProofRequest proofRequest = new ProofRequest(); // ProofRequest | Information needed to return the hash status information.
 try {
-    ResponseEntity result = apiInstance.getProof(authorization, proofRequest);
+    byte[] result = apiInstance.getProof(authorization, proofRequest);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling TimestampApi#getProof");
@@ -174,7 +175,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ResponseEntity**](ResponseEntity.md)
+**byte[]**
+
 
 ### HTTP request headers
 
@@ -187,7 +189,7 @@ Name | Type | Description  | Notes
 
 Dev
 
-With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as &lt;a target&#x3D;\&quot;_target\&quot; href&#x3D;\&quot;https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08\&quot;&gt;9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08&lt;/a&gt;
+With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 . Usually, the webhook is triggered as soon as the tamper-proof time stamp with the selected crypto currency has been created.
 
 ### Example
 ```java
@@ -218,6 +220,7 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Defaultstring**](Defaultstring.md)
+
 
 ### HTTP request headers
 

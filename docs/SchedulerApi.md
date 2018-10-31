@@ -9,11 +9,11 @@ Method | HTTP request | Description
 
 <a name="getNextSchedulingTime"></a>
 # **getNextSchedulingTime**
-> DefaultSchedulerResponse getNextSchedulingTime(schedulerRequest, authorization)
+> DefaultSchedulerResponse getNextSchedulingTime(authorization, schedulerRequest)
 
 NextSchedule
 
-Get the next scheduling time for submissions.
+Get the next scheduling time for hash submissions to the blockchain.
 
 ### Example
 ```java
@@ -23,10 +23,10 @@ Get the next scheduling time for submissions.
 
 
 SchedulerApi apiInstance = new SchedulerApi();
-SchedulerRequest schedulerRequest = new SchedulerRequest(); // SchedulerRequest | Request DTO for next schedules.
 String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
+SchedulerRequest schedulerRequest = new SchedulerRequest(); // SchedulerRequest | Request DTO for next schedules.
 try {
-    DefaultSchedulerResponse result = apiInstance.getNextSchedulingTime(schedulerRequest, authorization);
+    DefaultSchedulerResponse result = apiInstance.getNextSchedulingTime(authorization, schedulerRequest);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling SchedulerApi#getNextSchedulingTime");
@@ -38,8 +38,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **schedulerRequest** | [**SchedulerRequest**](SchedulerRequest.md)| Request DTO for next schedules. |
  **authorization** | **String**| A valid API key is essential for authorization to handle the request. |
+ **schedulerRequest** | [**SchedulerRequest**](SchedulerRequest.md)| Request DTO for next schedules. |
 
 ### Return type
 

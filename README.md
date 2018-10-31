@@ -59,32 +59,21 @@ OriginStamp has now become a commercial product and the leading platform for blo
 Please follow the [installation](#installation) instruction and execute the following Java code:
 
 ```java
+// Import classes:
+//import com.originstamp.api.client.ApiException;
+//import com.originstamp.api.TimestampApi;
 
-import com.originstamp.api.client.*;
-import com.originstamp.api.client.auth.*;
-import com.originstamp.model.*;
-import com.originstamp.api.SchedulerApi;
 
-import java.io.File;
-import java.util.*;
-
-public class SchedulerApiExample {
-
-    public static void main(String[] args) {
-        
-        SchedulerApi apiInstance = new SchedulerApi();
-        SchedulerRequest schedulerRequest = new SchedulerRequest(); // SchedulerRequest | Request DTO for next schedules.
-        String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
-        try {
-            DefaultSchedulerResponse result = apiInstance.getNextSchedulingTime(schedulerRequest, authorization);
-            System.out.println(result);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling SchedulerApi#getNextSchedulingTime");
-            e.printStackTrace();
-        }
-    }
+TimestampApi apiInstance = new TimestampApi();
+String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
+TimestampRequest timestampRequest = new TimestampRequest(); // TimestampRequest | DTO for the hash submission. Add all relevant information concerning your hash submission.
+try {
+    DefaultTimestampResponse result = apiInstance.createTimestamp(authorization, timestampRequest);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling TimestampApi#createTimestamp");
+    e.printStackTrace();
 }
-
 ```
 
 ## Documentation for API Endpoints

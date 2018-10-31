@@ -1,6 +1,6 @@
 /*
  * OriginStamp Documentation
- * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table>
+ * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table><br/><h2>Common Problems</h2><ul><li>Make sure you set the Authorization with your API key</li><li>If a cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
  *
  * OpenAPI spec version: 3.0
  * Contact: mail@originstamp.com
@@ -57,14 +57,14 @@ public class SchedulerApi {
 
     /**
      * Build call for getNextSchedulingTime
-     * @param schedulerRequest Request DTO for next schedules. (required)
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
+     * @param schedulerRequest Request DTO for next schedules. (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getNextSchedulingTimeCall(SchedulerRequest schedulerRequest, String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    public com.squareup.okhttp.Call getNextSchedulingTimeCall(String authorization, SchedulerRequest schedulerRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         Object localVarPostBody = schedulerRequest;
 
         // create path and map variables
@@ -108,61 +108,61 @@ public class SchedulerApi {
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getNextSchedulingTimeValidateBeforeCall(SchedulerRequest schedulerRequest, String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'schedulerRequest' is set
-        if (schedulerRequest == null) {
-            throw new ApiException("Missing the required parameter 'schedulerRequest' when calling getNextSchedulingTime(Async)");
-        }
+    private com.squareup.okhttp.Call getNextSchedulingTimeValidateBeforeCall(String authorization, SchedulerRequest schedulerRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'authorization' is set
         if (authorization == null) {
             throw new ApiException("Missing the required parameter 'authorization' when calling getNextSchedulingTime(Async)");
         }
         
+        // verify the required parameter 'schedulerRequest' is set
+        if (schedulerRequest == null) {
+            throw new ApiException("Missing the required parameter 'schedulerRequest' when calling getNextSchedulingTime(Async)");
+        }
+        
 
-        com.squareup.okhttp.Call call = getNextSchedulingTimeCall(schedulerRequest, authorization, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getNextSchedulingTimeCall(authorization, schedulerRequest, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
      * NextSchedule
-     * Get the next scheduling time for submissions.
-     * @param schedulerRequest Request DTO for next schedules. (required)
+     * Get the next scheduling time for hash submissions to the blockchain.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
+     * @param schedulerRequest Request DTO for next schedules. (required)
      * @return DefaultSchedulerResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public DefaultSchedulerResponse getNextSchedulingTime(SchedulerRequest schedulerRequest, String authorization) throws ApiException {
-        ApiResponse<DefaultSchedulerResponse> resp = getNextSchedulingTimeWithHttpInfo(schedulerRequest, authorization);
+    public DefaultSchedulerResponse getNextSchedulingTime(String authorization, SchedulerRequest schedulerRequest) throws ApiException {
+        ApiResponse<DefaultSchedulerResponse> resp = getNextSchedulingTimeWithHttpInfo(authorization, schedulerRequest);
         return resp.getData();
     }
 
     /**
      * NextSchedule
-     * Get the next scheduling time for submissions.
-     * @param schedulerRequest Request DTO for next schedules. (required)
+     * Get the next scheduling time for hash submissions to the blockchain.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
+     * @param schedulerRequest Request DTO for next schedules. (required)
      * @return ApiResponse&lt;DefaultSchedulerResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<DefaultSchedulerResponse> getNextSchedulingTimeWithHttpInfo(SchedulerRequest schedulerRequest, String authorization) throws ApiException {
-        com.squareup.okhttp.Call call = getNextSchedulingTimeValidateBeforeCall(schedulerRequest, authorization, null, null);
+    public ApiResponse<DefaultSchedulerResponse> getNextSchedulingTimeWithHttpInfo(String authorization, SchedulerRequest schedulerRequest) throws ApiException {
+        com.squareup.okhttp.Call call = getNextSchedulingTimeValidateBeforeCall(authorization, schedulerRequest, null, null);
         Type localVarReturnType = new TypeToken<DefaultSchedulerResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
      * NextSchedule (asynchronously)
-     * Get the next scheduling time for submissions.
-     * @param schedulerRequest Request DTO for next schedules. (required)
+     * Get the next scheduling time for hash submissions to the blockchain.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
+     * @param schedulerRequest Request DTO for next schedules. (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getNextSchedulingTimeAsync(SchedulerRequest schedulerRequest, String authorization, final ApiCallback<DefaultSchedulerResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call getNextSchedulingTimeAsync(String authorization, SchedulerRequest schedulerRequest, final ApiCallback<DefaultSchedulerResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -183,7 +183,7 @@ public class SchedulerApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getNextSchedulingTimeValidateBeforeCall(schedulerRequest, authorization, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getNextSchedulingTimeValidateBeforeCall(authorization, schedulerRequest, progressListener, progressRequestListener);
         Type localVarReturnType = new TypeToken<DefaultSchedulerResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;

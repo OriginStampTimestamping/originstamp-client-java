@@ -1,6 +1,6 @@
 /*
  * OriginStamp Documentation
- * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table>
+ * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table><br/><h2>Common Problems</h2><ul><li>Make sure you set the Authorization with your API key</li><li>If a cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
  *
  * OpenAPI spec version: 3.0
  * Contact: mail@originstamp.com
@@ -27,7 +27,7 @@ import java.io.IOException;
  * request object for proof request.
  */
 @ApiModel(description = "request object for proof request.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-10-29T13:43:50.106+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-10-31T09:39:46.494+01:00")
 public class ProofRequest {
   @SerializedName("currency")
   private Integer currency = null;
@@ -44,10 +44,10 @@ public class ProofRequest {
   }
 
    /**
-   * 0: Bitcoin  1: Ethereum
+   * 0: Bitcoin
    * @return currency
   **/
-  @ApiModelProperty(required = true, value = "0: Bitcoin  1: Ethereum")
+  @ApiModelProperty(required = true, value = "0: Bitcoin")
   public Integer getCurrency() {
     return currency;
   }
@@ -62,10 +62,10 @@ public class ProofRequest {
   }
 
    /**
-   * Hash in HEX representation. We allow the use of SHA-256. Note: We handle the hashes in lower-case.
+   * Hash in HEX representation for which the proof should be created. We allow the use of SHA-256. Note: We handle the hashes in lower-case.
    * @return hashString
   **/
-  @ApiModelProperty(required = true, value = "Hash in HEX representation. We allow the use of SHA-256. Note: We handle the hashes in lower-case.")
+  @ApiModelProperty(required = true, value = "Hash in HEX representation for which the proof should be created. We allow the use of SHA-256. Note: We handle the hashes in lower-case.")
   public String getHashString() {
     return hashString;
   }
@@ -80,10 +80,10 @@ public class ProofRequest {
   }
 
    /**
-   * Specifies which type of file should be returned. Possible value(s):  0: proof with a seed file (txt) or proof with a merkle tree (xml)    Other formats will follow.
+   * Specifies which type of file should be returned. Possible value(s):  0: proof with a seed file (txt) or proof with a merkle tree (xml) 1: proof with a PDF file   Other formats will follow.
    * @return proofType
   **/
-  @ApiModelProperty(required = true, value = "Specifies which type of file should be returned. Possible value(s):  0: proof with a seed file (txt) or proof with a merkle tree (xml)    Other formats will follow.")
+  @ApiModelProperty(required = true, value = "Specifies which type of file should be returned. Possible value(s):  0: proof with a seed file (txt) or proof with a merkle tree (xml) 1: proof with a PDF file   Other formats will follow.")
   public Integer getProofType() {
     return proofType;
   }

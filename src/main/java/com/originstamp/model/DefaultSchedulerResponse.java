@@ -1,6 +1,6 @@
 /*
  * OriginStamp Documentation
- * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table>
+ * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table><br/><h2>Common Problems</h2><ul><li>Make sure you set the Authorization with your API key</li><li>If a cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
  *
  * OpenAPI spec version: 3.0
  * Contact: mail@originstamp.com
@@ -28,7 +28,7 @@ import java.io.IOException;
  * The default service response object uses error code and message to indicate errors. These errors are handled by the client.
  */
 @ApiModel(description = "The default service response object uses error code and message to indicate errors. These errors are handled by the client.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-10-29T13:43:50.106+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-10-31T09:39:46.494+01:00")
 public class DefaultSchedulerResponse {
   @SerializedName("data")
   private SchedulerResponse data = null;
@@ -45,10 +45,10 @@ public class DefaultSchedulerResponse {
   }
 
    /**
-   * generic response object, which contains the response data, e.g. timestamp information
+   * Generic response object which contains the response data, e.g. timestamp information.
    * @return data
   **/
-  @ApiModelProperty(required = true, value = "generic response object, which contains the response data, e.g. timestamp information")
+  @ApiModelProperty(required = true, value = "Generic response object which contains the response data, e.g. timestamp information.")
   public SchedulerResponse getData() {
     return data;
   }
@@ -63,10 +63,10 @@ public class DefaultSchedulerResponse {
   }
 
    /**
-   * contains the error of the request. if the error code is 0, everything is fine.
+   * Contains the error of the request. If the error code is 0, everything is fine.
    * @return errorCode
   **/
-  @ApiModelProperty(required = true, value = "contains the error of the request. if the error code is 0, everything is fine.")
+  @ApiModelProperty(required = true, value = "Contains the error of the request. If the error code is 0, everything is fine.")
   public Integer getErrorCode() {
     return errorCode;
   }
@@ -81,10 +81,10 @@ public class DefaultSchedulerResponse {
   }
 
    /**
-   * contains the error message, that occurred. If it is empty, everything is fine
+   * Contains the error message, that possibly occurred. If it is empty, everything is fine.
    * @return errorMessage
   **/
-  @ApiModelProperty(required = true, value = "contains the error message, that occurred. If it is empty, everything is fine")
+  @ApiModelProperty(required = true, value = "Contains the error message, that possibly occurred. If it is empty, everything is fine.")
   public String getErrorMessage() {
     return errorMessage;
   }
