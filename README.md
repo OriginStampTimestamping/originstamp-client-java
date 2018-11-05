@@ -1,5 +1,5 @@
 # OriginStamp Java Client
-[![Build Status](https://travis-ci.com/OriginStampTimestamping/originstamp-api.svg?token=pQzQz38vk99v2uad9eWc&branch=master)](https://travis-ci.com/OriginStampTimestamping/originstamp-api)
+[![Build Status](https://travis-ci.com/OriginStampTimestamping/originstamp-client-java.svg?token=pQzQz38vk99v2uad9eWc&branch=master)](https://travis-ci.com/OriginStampTimestamping/originstamp-client-java)
 
 ![](https://originstamp.com/assets/images/logo/logo_simple_small.png)
 
