@@ -126,3 +126,7 @@ It's recommended to create an instance of `ApiClient` per thread in a multithrea
 ## Author
 
 mail@originstamp.com
+
+## Coding Conventions
+
+Please see [CONVENTIONS.md](CONVENTIONS.md).
