@@ -1,7 +1,5 @@
 # Coding Conventions
 
-Please also [check our wiki](https://team.originstamp.com/confluence/dosearchsite.action?queryString=coding+conventions).
-
 For this project rough guidelines apply in dealing with the source code. Since we are aware that in the Java world, many different guidelines exists, we limit ourselves to a few key points.
 
 We also provide a Checkstyle configuration which reflect some rules we state here.
@@ -10,7 +8,7 @@ We also provide a Checkstyle configuration which reflect some rules we state her
 - Go to `File`>`Settings`>`Plugins` and install "Checkstyle-IDEA" and "Lombok" and activate them.
 - Go to `File`>`Settings`>`Other Settings`>`Checkstyle` and import and activate the checkstyle file from `./config/checkstyle.xml`.
 
-For further information check the Wiki pages for [Checkstyle](https://team.originstamp.com/confluence/display/SD/Checkstyle) and [Lombok](https://team.originstamp.com/confluence/display/SD/Lombok).
+For further information check the Wiki pages for Checkstyle and Lombok.
 
 ## Naming
 - Naming for classes, methods and fields: use common Java Standard.
@@ -62,7 +60,7 @@ For further information check the Wiki pages for [Checkstyle](https://team.origi
 ## Bugs
 - For bugs, reference e.g. test cases with `@see` annotation and related issue in the JavaDoc. Additionally, provide a short description of the bug and what you fixed in order to prevent the deletion of fixes or necessary test cases.
 
-    `@see https://team.originstamp.com/jira/browse/OWD-298`
+    `@see <link to issue>
 
 # Library Guidelines
 
@@ -84,7 +82,7 @@ Methods are annotated with
 `@ApiOperation(value = "", notes = "", nickname = "")`
 - Field "value" is a description field for the method. It shall be one word starting with an uppercase letter (like "NextSchedule").
 - "notes" contains a short description of the method.
-- The field "nickname" represents the actual method name in the Swagger client. We use here the normal naming conventions of Java (like "getNextSchedulingTime").
+- The field "nickname" represents the actual method name in the Swagger client. We use here the normal naming conventions of Java (like "getNextSchedule").
 
 ## Method parameter annotations
 Each method parameter is annotated with
