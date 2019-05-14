@@ -7,13 +7,13 @@
 
 ## Table of Contents
 
-- [Install](#install)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Building](#building)
 - [Contribute](#contribute)
 - [License](#license)
 
-## Install
+## Installation
 
 ### Official releases
 
@@ -60,8 +60,9 @@ Please follow the [installation](#installation) instruction and execute the foll
 
 ```java
 // Import classes:
-//import com.originstamp.api.client.ApiException;
-//import com.originstamp.api.TimestampApi;
+import com.originstamp.api.client.ApiException;
+import com.originstamp.api.TimestampApi;
+...
 
 
 TimestampApi apiInstance = new TimestampApi();
