@@ -3,7 +3,7 @@
 
 ![](https://originstamp.com/assets/images/logo/logo_simple_small.png)
 
-> A Java implementation of the OriginStamp API. For endpoint documentation see [OriginStamp Documentation](https://doc.originstamp.org)
+> A Java implementation of the OriginStamp API. For endpoint documentation see [OriginStamp Documentation](https://docs.originstamp.com)
 
 ## Table of Contents
 
