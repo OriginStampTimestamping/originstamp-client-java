@@ -1,6 +1,6 @@
 /*
- * OriginStamp Documentation
- * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table><br/><h2>Common Problems</h2><ul><li>Make sure you set the Authorization with your API key</li><li>If a cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
+ * OriginStamp API Documentation
+ * The following documentation describes the API v3 for OriginStamp. OriginStamp is a trusted timestamping service that uses the decentralized blockchain to store anonymous, tamper-proof timestamps for any digital content. OriginStamp allows users to timestamp files, emails, or plain text, and subsequently store the created hashes in the blockchain as well as retrieve and verify timetamps that have been committed to the blockchain.The trusted timestamping service of OriginStamp allows you to generate a hash fingerprint and prove that it was created at a specific point in time. If you are interested in integrating trusted timestamping into your own project, feel free to use our provided API. The following interactive documentation describes the interfaces and supports your integration. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Timestamping Steps</h2><ol><li><strong>Determine Hash: </strong> Calculate the SHA-256 of your record using a cryptographic library.</li><li><strong>Create Timestamp: </strong>Create a timestamp and add meta information to index it, e.g. a comment. You can also request a notification (email or webhook) once the tamper-proof timestamp has been created.</li><li><strong>Archive original file: </strong>Since we have no access to your original data, you should archive it because the timestamp is only valid in combination with the original file.</li><li><strong>Check Timestamp Status: </strong>Since the timestamps are always transmitted to the blockchain network at certain times, i.e. there is a delay, you can check the status of a hash and thus get the timestamp information.</li><li><strong>Get Timestamp Proof: </strong>As soon as the tamper-proof timestamp has been generated, you should archive the proof (Merkle Tree), which we created in our open procedure, together with the original file. With this proof, the existence of the file can be verified independently of OriginStamp. Here you can choose if the raw proof (xml) is sufficient proof or if you want to have a certificate (pdf).</li></ol><br/><h2>Installation Notes</h2><ul><li>Make sure you set the Authorization header correctly using your API key.</li><li>If a Cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
  *
  * OpenAPI spec version: 3.0
  * Contact: mail@originstamp.com
@@ -14,6 +14,7 @@
 package com.originstamp.model;
 
 import java.util.Objects;
+import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -30,7 +31,7 @@ import java.util.List;
  * request object for a timestamp request.
  */
 @ApiModel(description = "request object for a timestamp request.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-10-31T09:39:46.494+01:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-03T14:21:20.239+01:00")
 public class TimestampRequest {
   @SerializedName("comment")
   private String comment = null;
@@ -41,9 +42,6 @@ public class TimestampRequest {
   @SerializedName("notifications")
   private List<Notification> notifications = null;
 
-  @SerializedName("url")
-  private String url = null;
-
   public TimestampRequest comment(String comment) {
     this.comment = comment;
     return this;
@@ -53,7 +51,7 @@ public class TimestampRequest {
    * You can add a short comment (max. 256 characters) which can be used for indexing and searching (public).
    * @return comment
   **/
-  @ApiModelProperty(value = "You can add a short comment (max. 256 characters) which can be used for indexing and searching (public).")
+  @ApiModelProperty(example = "test", value = "You can add a short comment (max. 256 characters) which can be used for indexing and searching (public).")
   public String getComment() {
     return comment;
   }
@@ -71,7 +69,7 @@ public class TimestampRequest {
    * Hash in HEX representation. We suggest to use SHA-256. This hash will be aggregated and included into the blockchain.
    * @return hash
   **/
-  @ApiModelProperty(required = true, value = "Hash in HEX representation. We suggest to use SHA-256. This hash will be aggregated and included into the blockchain.")
+  @ApiModelProperty(example = "2c5d36be542f8f0e7345d77753a5d7ea61a443ba6a9a86bb060332ad56dba38e", required = true, value = "Hash in HEX representation. We suggest to use SHA-256. This hash will be aggregated and included into the blockchain.")
   public String getHash() {
     return hash;
   }
@@ -106,24 +104,6 @@ public class TimestampRequest {
     this.notifications = notifications;
   }
 
-  public TimestampRequest url(String url) {
-    this.url = url;
-    return this;
-  }
-
-   /**
-   * Preprint URL. Insert the generated UUID here. You can generate an UUID-4 and include it into your document: https://originstamp.org/u/uuid4. When submitting the your file, the url is part of the hash, which finally means it the link to the timestamp is part of the timestamp.
-   * @return url
-  **/
-  @ApiModelProperty(value = "Preprint URL. Insert the generated UUID here. You can generate an UUID-4 and include it into your document: https://originstamp.org/u/uuid4. When submitting the your file, the url is part of the hash, which finally means it the link to the timestamp is part of the timestamp.")
-  public String getUrl() {
-    return url;
-  }
-
-  public void setUrl(String url) {
-    this.url = url;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -136,13 +116,12 @@ public class TimestampRequest {
     TimestampRequest timestampRequest = (TimestampRequest) o;
     return Objects.equals(this.comment, timestampRequest.comment) &&
         Objects.equals(this.hash, timestampRequest.hash) &&
-        Objects.equals(this.notifications, timestampRequest.notifications) &&
-        Objects.equals(this.url, timestampRequest.url);
+        Objects.equals(this.notifications, timestampRequest.notifications);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(comment, hash, notifications, url);
+    return Objects.hash(comment, hash, notifications);
   }
 
 
@@ -154,7 +133,6 @@ public class TimestampRequest {
     sb.append("    comment: ").append(toIndentedString(comment)).append("\n");
     sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
     sb.append("    notifications: ").append(toIndentedString(notifications)).append("\n");
-    sb.append("    url: ").append(toIndentedString(url)).append("\n");
     sb.append("}");
     return sb.toString();
   }

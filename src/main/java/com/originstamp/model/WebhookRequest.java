@@ -1,6 +1,6 @@
 /*
- * OriginStamp Documentation
- * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table><br/><h2>Common Problems</h2><ul><li>Make sure you set the Authorization with your API key</li><li>If a cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
+ * OriginStamp API Documentation
+ * The following documentation describes the API v3 for OriginStamp. OriginStamp is a trusted timestamping service that uses the decentralized blockchain to store anonymous, tamper-proof timestamps for any digital content. OriginStamp allows users to timestamp files, emails, or plain text, and subsequently store the created hashes in the blockchain as well as retrieve and verify timetamps that have been committed to the blockchain.The trusted timestamping service of OriginStamp allows you to generate a hash fingerprint and prove that it was created at a specific point in time. If you are interested in integrating trusted timestamping into your own project, feel free to use our provided API. The following interactive documentation describes the interfaces and supports your integration. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Timestamping Steps</h2><ol><li><strong>Determine Hash: </strong> Calculate the SHA-256 of your record using a cryptographic library.</li><li><strong>Create Timestamp: </strong>Create a timestamp and add meta information to index it, e.g. a comment. You can also request a notification (email or webhook) once the tamper-proof timestamp has been created.</li><li><strong>Archive original file: </strong>Since we have no access to your original data, you should archive it because the timestamp is only valid in combination with the original file.</li><li><strong>Check Timestamp Status: </strong>Since the timestamps are always transmitted to the blockchain network at certain times, i.e. there is a delay, you can check the status of a hash and thus get the timestamp information.</li><li><strong>Get Timestamp Proof: </strong>As soon as the tamper-proof timestamp has been generated, you should archive the proof (Merkle Tree), which we created in our open procedure, together with the original file. With this proof, the existence of the file can be verified independently of OriginStamp. Here you can choose if the raw proof (xml) is sufficient proof or if you want to have a certificate (pdf).</li></ol><br/><h2>Installation Notes</h2><ul><li>Make sure you set the Authorization header correctly using your API key.</li><li>If a Cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
  *
  * OpenAPI spec version: 3.0
  * Contact: mail@originstamp.com
@@ -14,6 +14,7 @@
 package com.originstamp.model;
 
 import java.util.Objects;
+import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -24,16 +25,37 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Request object for a manual webhook request.
+ * Request object for a webhook request.
  */
-@ApiModel(description = "Request object for a manual webhook request.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-10-31T09:39:46.494+01:00")
+@ApiModel(description = "Request object for a webhook request.")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-03T14:21:20.239+01:00")
 public class WebhookRequest {
+  @SerializedName("currency")
+  private Integer currency = null;
+
   @SerializedName("hash")
   private String hash = null;
 
-  @SerializedName("webhook_url")
-  private String webhookUrl = null;
+  @SerializedName("target")
+  private String target = null;
+
+  public WebhookRequest currency(Integer currency) {
+    this.currency = currency;
+    return this;
+  }
+
+   /**
+   * Currency ID for which the webhook should be executed. Possible values: 0: Bitcoin 1: Ethereum 2: AION 100: Südkurier
+   * @return currency
+  **/
+  @ApiModelProperty(example = "0", value = "Currency ID for which the webhook should be executed. Possible values: 0: Bitcoin 1: Ethereum 2: AION 100: Südkurier")
+  public Integer getCurrency() {
+    return currency;
+  }
+
+  public void setCurrency(Integer currency) {
+    this.currency = currency;
+  }
 
   public WebhookRequest hash(String hash) {
     this.hash = hash;
@@ -41,10 +63,10 @@ public class WebhookRequest {
   }
 
    /**
-   * SHA-256 Hash in Hex representation
+   * Hash (SHA-256 in HEX) for which a notification is requested.
    * @return hash
   **/
-  @ApiModelProperty(required = true, value = "SHA-256 Hash in Hex representation")
+  @ApiModelProperty(example = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", value = "Hash (SHA-256 in HEX) for which a notification is requested.")
   public String getHash() {
     return hash;
   }
@@ -53,22 +75,22 @@ public class WebhookRequest {
     this.hash = hash;
   }
 
-  public WebhookRequest webhookUrl(String webhookUrl) {
-    this.webhookUrl = webhookUrl;
+  public WebhookRequest target(String target) {
+    this.target = target;
     return this;
   }
 
    /**
-   * target url that should receive the webhook
-   * @return webhookUrl
+   * Target address to which a POST request should be executed.
+   * @return target
   **/
-  @ApiModelProperty(required = true, value = "target url that should receive the webhook")
-  public String getWebhookUrl() {
-    return webhookUrl;
+  @ApiModelProperty(example = "https://originstamp.com/webhook", value = "Target address to which a POST request should be executed.")
+  public String getTarget() {
+    return target;
   }
 
-  public void setWebhookUrl(String webhookUrl) {
-    this.webhookUrl = webhookUrl;
+  public void setTarget(String target) {
+    this.target = target;
   }
 
 
@@ -81,13 +103,14 @@ public class WebhookRequest {
       return false;
     }
     WebhookRequest webhookRequest = (WebhookRequest) o;
-    return Objects.equals(this.hash, webhookRequest.hash) &&
-        Objects.equals(this.webhookUrl, webhookRequest.webhookUrl);
+    return Objects.equals(this.currency, webhookRequest.currency) &&
+        Objects.equals(this.hash, webhookRequest.hash) &&
+        Objects.equals(this.target, webhookRequest.target);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hash, webhookUrl);
+    return Objects.hash(currency, hash, target);
   }
 
 
@@ -96,8 +119,9 @@ public class WebhookRequest {
     StringBuilder sb = new StringBuilder();
     sb.append("class WebhookRequest {\n");
     
+    sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
     sb.append("    hash: ").append(toIndentedString(hash)).append("\n");
-    sb.append("    webhookUrl: ").append(toIndentedString(webhookUrl)).append("\n");
+    sb.append("    target: ").append(toIndentedString(target)).append("\n");
     sb.append("}");
     return sb.toString();
   }

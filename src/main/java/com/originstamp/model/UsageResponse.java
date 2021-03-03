@@ -1,6 +1,6 @@
 /*
- * OriginStamp Documentation
- * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table><br/><h2>Common Problems</h2><ul><li>Make sure you set the Authorization with your API key</li><li>If a cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
+ * OriginStamp API Documentation
+ * The following documentation describes the API v3 for OriginStamp. OriginStamp is a trusted timestamping service that uses the decentralized blockchain to store anonymous, tamper-proof timestamps for any digital content. OriginStamp allows users to timestamp files, emails, or plain text, and subsequently store the created hashes in the blockchain as well as retrieve and verify timetamps that have been committed to the blockchain.The trusted timestamping service of OriginStamp allows you to generate a hash fingerprint and prove that it was created at a specific point in time. If you are interested in integrating trusted timestamping into your own project, feel free to use our provided API. The following interactive documentation describes the interfaces and supports your integration. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Timestamping Steps</h2><ol><li><strong>Determine Hash: </strong> Calculate the SHA-256 of your record using a cryptographic library.</li><li><strong>Create Timestamp: </strong>Create a timestamp and add meta information to index it, e.g. a comment. You can also request a notification (email or webhook) once the tamper-proof timestamp has been created.</li><li><strong>Archive original file: </strong>Since we have no access to your original data, you should archive it because the timestamp is only valid in combination with the original file.</li><li><strong>Check Timestamp Status: </strong>Since the timestamps are always transmitted to the blockchain network at certain times, i.e. there is a delay, you can check the status of a hash and thus get the timestamp information.</li><li><strong>Get Timestamp Proof: </strong>As soon as the tamper-proof timestamp has been generated, you should archive the proof (Merkle Tree), which we created in our open procedure, together with the original file. With this proof, the existence of the file can be verified independently of OriginStamp. Here you can choose if the raw proof (xml) is sufficient proof or if you want to have a certificate (pdf).</li></ol><br/><h2>Installation Notes</h2><ul><li>Make sure you set the Authorization header correctly using your API key.</li><li>If a Cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
  *
  * OpenAPI spec version: 3.0
  * Contact: mail@originstamp.com
@@ -14,6 +14,7 @@
 package com.originstamp.model;
 
 import java.util.Objects;
+import java.util.Arrays;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -25,19 +26,70 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
- * Get the current credit usage for this month.
+ * Usage metric for this month.
  */
-@ApiModel(description = "Get the current credit usage for this month.")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2018-10-31T09:39:46.494+01:00")
+@ApiModel(description = "Usage metric for this month.")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-03T14:21:20.239+01:00")
 public class UsageResponse {
+  @SerializedName("certificate_per_month")
+  private Long certificatePerMonth = null;
+
+  @SerializedName("consumed_certificates")
+  private Long consumedCertificates = null;
+
   @SerializedName("consumed_credits")
   private BigDecimal consumedCredits = null;
+
+  @SerializedName("consumed_timestamps")
+  private Long consumedTimestamps = null;
 
   @SerializedName("credits_per_month")
   private BigDecimal creditsPerMonth = null;
 
+  @SerializedName("limitation_type")
+  private Integer limitationType = null;
+
   @SerializedName("remaining_credits")
   private BigDecimal remainingCredits = null;
+
+  @SerializedName("timestamps_per_month")
+  private Long timestampsPerMonth = null;
+
+  public UsageResponse certificatePerMonth(Long certificatePerMonth) {
+    this.certificatePerMonth = certificatePerMonth;
+    return this;
+  }
+
+   /**
+   * Total number of certificates available per month.
+   * @return certificatePerMonth
+  **/
+  @ApiModelProperty(value = "Total number of certificates available per month.")
+  public Long getCertificatePerMonth() {
+    return certificatePerMonth;
+  }
+
+  public void setCertificatePerMonth(Long certificatePerMonth) {
+    this.certificatePerMonth = certificatePerMonth;
+  }
+
+  public UsageResponse consumedCertificates(Long consumedCertificates) {
+    this.consumedCertificates = consumedCertificates;
+    return this;
+  }
+
+   /**
+   * Number of certificates requested for the current month.
+   * @return consumedCertificates
+  **/
+  @ApiModelProperty(value = "Number of certificates requested for the current month.")
+  public Long getConsumedCertificates() {
+    return consumedCertificates;
+  }
+
+  public void setConsumedCertificates(Long consumedCertificates) {
+    this.consumedCertificates = consumedCertificates;
+  }
 
   public UsageResponse consumedCredits(BigDecimal consumedCredits) {
     this.consumedCredits = consumedCredits;
@@ -45,16 +97,34 @@ public class UsageResponse {
   }
 
    /**
-   * Represents the number of used credits for the current month.
+   * Number of used credits for the current month.
    * @return consumedCredits
   **/
-  @ApiModelProperty(value = "Represents the number of used credits for the current month.")
+  @ApiModelProperty(value = "Number of used credits for the current month.")
   public BigDecimal getConsumedCredits() {
     return consumedCredits;
   }
 
   public void setConsumedCredits(BigDecimal consumedCredits) {
     this.consumedCredits = consumedCredits;
+  }
+
+  public UsageResponse consumedTimestamps(Long consumedTimestamps) {
+    this.consumedTimestamps = consumedTimestamps;
+    return this;
+  }
+
+   /**
+   * Number of timestamps created for the current month.
+   * @return consumedTimestamps
+  **/
+  @ApiModelProperty(value = "Number of timestamps created for the current month.")
+  public Long getConsumedTimestamps() {
+    return consumedTimestamps;
+  }
+
+  public void setConsumedTimestamps(Long consumedTimestamps) {
+    this.consumedTimestamps = consumedTimestamps;
   }
 
   public UsageResponse creditsPerMonth(BigDecimal creditsPerMonth) {
@@ -75,22 +145,58 @@ public class UsageResponse {
     this.creditsPerMonth = creditsPerMonth;
   }
 
+  public UsageResponse limitationType(Integer limitationType) {
+    this.limitationType = limitationType;
+    return this;
+  }
+
+   /**
+   * Determines which usage metric is applied (0 &#x3D; credits, 1 &#x3D; timestamps).
+   * @return limitationType
+  **/
+  @ApiModelProperty(value = "Determines which usage metric is applied (0 = credits, 1 = timestamps).")
+  public Integer getLimitationType() {
+    return limitationType;
+  }
+
+  public void setLimitationType(Integer limitationType) {
+    this.limitationType = limitationType;
+  }
+
   public UsageResponse remainingCredits(BigDecimal remainingCredits) {
     this.remainingCredits = remainingCredits;
     return this;
   }
 
    /**
-   * Represents the remaining number of credits for the current month.
+   * Remaining number of credits for the current month.
    * @return remainingCredits
   **/
-  @ApiModelProperty(value = "Represents the remaining number of credits for the current month.")
+  @ApiModelProperty(value = "Remaining number of credits for the current month.")
   public BigDecimal getRemainingCredits() {
     return remainingCredits;
   }
 
   public void setRemainingCredits(BigDecimal remainingCredits) {
     this.remainingCredits = remainingCredits;
+  }
+
+  public UsageResponse timestampsPerMonth(Long timestampsPerMonth) {
+    this.timestampsPerMonth = timestampsPerMonth;
+    return this;
+  }
+
+   /**
+   * Total number of timestamps available per month.
+   * @return timestampsPerMonth
+  **/
+  @ApiModelProperty(value = "Total number of timestamps available per month.")
+  public Long getTimestampsPerMonth() {
+    return timestampsPerMonth;
+  }
+
+  public void setTimestampsPerMonth(Long timestampsPerMonth) {
+    this.timestampsPerMonth = timestampsPerMonth;
   }
 
 
@@ -103,14 +209,19 @@ public class UsageResponse {
       return false;
     }
     UsageResponse usageResponse = (UsageResponse) o;
-    return Objects.equals(this.consumedCredits, usageResponse.consumedCredits) &&
+    return Objects.equals(this.certificatePerMonth, usageResponse.certificatePerMonth) &&
+        Objects.equals(this.consumedCertificates, usageResponse.consumedCertificates) &&
+        Objects.equals(this.consumedCredits, usageResponse.consumedCredits) &&
+        Objects.equals(this.consumedTimestamps, usageResponse.consumedTimestamps) &&
         Objects.equals(this.creditsPerMonth, usageResponse.creditsPerMonth) &&
-        Objects.equals(this.remainingCredits, usageResponse.remainingCredits);
+        Objects.equals(this.limitationType, usageResponse.limitationType) &&
+        Objects.equals(this.remainingCredits, usageResponse.remainingCredits) &&
+        Objects.equals(this.timestampsPerMonth, usageResponse.timestampsPerMonth);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(consumedCredits, creditsPerMonth, remainingCredits);
+    return Objects.hash(certificatePerMonth, consumedCertificates, consumedCredits, consumedTimestamps, creditsPerMonth, limitationType, remainingCredits, timestampsPerMonth);
   }
 
 
@@ -119,9 +230,14 @@ public class UsageResponse {
     StringBuilder sb = new StringBuilder();
     sb.append("class UsageResponse {\n");
     
+    sb.append("    certificatePerMonth: ").append(toIndentedString(certificatePerMonth)).append("\n");
+    sb.append("    consumedCertificates: ").append(toIndentedString(consumedCertificates)).append("\n");
     sb.append("    consumedCredits: ").append(toIndentedString(consumedCredits)).append("\n");
+    sb.append("    consumedTimestamps: ").append(toIndentedString(consumedTimestamps)).append("\n");
     sb.append("    creditsPerMonth: ").append(toIndentedString(creditsPerMonth)).append("\n");
+    sb.append("    limitationType: ").append(toIndentedString(limitationType)).append("\n");
     sb.append("    remainingCredits: ").append(toIndentedString(remainingCredits)).append("\n");
+    sb.append("    timestampsPerMonth: ").append(toIndentedString(timestampsPerMonth)).append("\n");
     sb.append("}");
     return sb.toString();
   }
