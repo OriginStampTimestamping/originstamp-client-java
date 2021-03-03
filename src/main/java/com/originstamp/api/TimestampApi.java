@@ -1,6 +1,6 @@
 /*
- * OriginStamp Documentation
- * <br/>The following documentation describes the API v3 for OriginStamp. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Invoice</h2><p>The invoice is based on your individual usage. The following table illustrates the request types, that are billed in credits.</p><table><tr><th>Request Type</th><th>Condition</th><th>Credits</th><tr><td style='border-bottom-style:solid; border-color: #c0c0c0;'></td><tr><th>Submission</th><th>create timestamp</th><th>1 Credit</th><tr><th>Submission</th><th>timestamp already exists</th><th>0.3 Credits</th><tr><th>Status</th><th>no timestamp information available</th><th>0.1 Credit</th><tr><th>Status</th><th>timestamp information</th><th>0.3 Credits</th><tr><th>Proof</th><th>no proof available</th><th>0.1 Credits</th><tr><th>Proof</th><th>merkle tree as proof</th><th>3 Credits</th><tr><th>Proof</th><th>seed as proof</th><th>3 Credits</th><tr><th>Proof</th><th>PDF Certificate</th><th>5 Credits</th><tr><th>Notification</th><th>webhook notification</th><th>1.5 Credits</th><tr><th>Notification</th><th>mail notification</th><th>5 Credits</th><tr><th>Notification</th><th>trigger webhook</th><th>5 0.3</th></table><br/><h2>Common Problems</h2><ul><li>Make sure you set the Authorization with your API key</li><li>If a cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
+ * OriginStamp API Documentation
+ * The following documentation describes the API v3 for OriginStamp. OriginStamp is a trusted timestamping service that uses the decentralized blockchain to store anonymous, tamper-proof timestamps for any digital content. OriginStamp allows users to timestamp files, emails, or plain text, and subsequently store the created hashes in the blockchain as well as retrieve and verify timetamps that have been committed to the blockchain.The trusted timestamping service of OriginStamp allows you to generate a hash fingerprint and prove that it was created at a specific point in time. If you are interested in integrating trusted timestamping into your own project, feel free to use our provided API. The following interactive documentation describes the interfaces and supports your integration. With this documentation you are able to try out the different requests and see the responses. For the authorization, add your API key to the Authorization header of your request.<br/><h2>Timestamping Steps</h2><ol><li><strong>Determine Hash: </strong> Calculate the SHA-256 of your record using a cryptographic library.</li><li><strong>Create Timestamp: </strong>Create a timestamp and add meta information to index it, e.g. a comment. You can also request a notification (email or webhook) once the tamper-proof timestamp has been created.</li><li><strong>Archive original file: </strong>Since we have no access to your original data, you should archive it because the timestamp is only valid in combination with the original file.</li><li><strong>Check Timestamp Status: </strong>Since the timestamps are always transmitted to the blockchain network at certain times, i.e. there is a delay, you can check the status of a hash and thus get the timestamp information.</li><li><strong>Get Timestamp Proof: </strong>As soon as the tamper-proof timestamp has been generated, you should archive the proof (Merkle Tree), which we created in our open procedure, together with the original file. With this proof, the existence of the file can be verified independently of OriginStamp. Here you can choose if the raw proof (xml) is sufficient proof or if you want to have a certificate (pdf).</li></ol><br/><h2>Installation Notes</h2><ul><li>Make sure you set the Authorization header correctly using your API key.</li><li>If a Cloudflare error occurs, please set a custom UserAgent header.</li><li>Please have a look at the models below to find out what each field means.</li></ul>
  *
  * OpenAPI spec version: 3.0
  * Contact: mail@originstamp.com
@@ -27,12 +27,8 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 
 
-import com.originstamp.model.DefaultTimestampResponse;
-import com.originstamp.model.DefaultUsageResponse;
-import com.originstamp.model.Defaultstring;
-import com.originstamp.model.ProofRequest;
+import com.originstamp.model.DefaultOfTimestampResponse;
 import com.originstamp.model.TimestampRequest;
-import com.originstamp.model.WebhookRequest;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -107,7 +103,7 @@ public class TimestampApi {
             });
         }
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "API Key Authorization" };
         return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
@@ -135,11 +131,11 @@ public class TimestampApi {
      * You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false and the notification(s) of the current request will be totally ignored. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). The webhook is triggered as soon as the tamper-proof timestamp with the selected crypto currency has been created. Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever). 
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param timestampRequest DTO for the hash submission. Add all relevant information concerning your hash submission. (required)
-     * @return DefaultTimestampResponse
+     * @return DefaultOfTimestampResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public DefaultTimestampResponse createTimestamp(String authorization, TimestampRequest timestampRequest) throws ApiException {
-        ApiResponse<DefaultTimestampResponse> resp = createTimestampWithHttpInfo(authorization, timestampRequest);
+    public DefaultOfTimestampResponse createTimestamp(String authorization, TimestampRequest timestampRequest) throws ApiException {
+        ApiResponse<DefaultOfTimestampResponse> resp = createTimestampWithHttpInfo(authorization, timestampRequest);
         return resp.getData();
     }
 
@@ -148,12 +144,12 @@ public class TimestampApi {
      * You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false and the notification(s) of the current request will be totally ignored. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). The webhook is triggered as soon as the tamper-proof timestamp with the selected crypto currency has been created. Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever). 
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param timestampRequest DTO for the hash submission. Add all relevant information concerning your hash submission. (required)
-     * @return ApiResponse&lt;DefaultTimestampResponse&gt;
+     * @return ApiResponse&lt;DefaultOfTimestampResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<DefaultTimestampResponse> createTimestampWithHttpInfo(String authorization, TimestampRequest timestampRequest) throws ApiException {
+    public ApiResponse<DefaultOfTimestampResponse> createTimestampWithHttpInfo(String authorization, TimestampRequest timestampRequest) throws ApiException {
         com.squareup.okhttp.Call call = createTimestampValidateBeforeCall(authorization, timestampRequest, null, null);
-        Type localVarReturnType = new TypeToken<DefaultTimestampResponse>(){}.getType();
+        Type localVarReturnType = new TypeToken<DefaultOfTimestampResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
@@ -166,7 +162,7 @@ public class TimestampApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call createTimestampAsync(String authorization, TimestampRequest timestampRequest, final ApiCallback<DefaultTimestampResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call createTimestampAsync(String authorization, TimestampRequest timestampRequest, final ApiCallback<DefaultOfTimestampResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -188,131 +184,7 @@ public class TimestampApi {
         }
 
         com.squareup.okhttp.Call call = createTimestampValidateBeforeCall(authorization, timestampRequest, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<DefaultTimestampResponse>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    /**
-     * Build call for getApiKeyUsage
-     * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call getApiKeyUsageCall(String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/v3/api_key/usage";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getApiKeyUsageValidateBeforeCall(String authorization, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'authorization' is set
-        if (authorization == null) {
-            throw new ApiException("Missing the required parameter 'authorization' when calling getApiKeyUsage(Async)");
-        }
-        
-
-        com.squareup.okhttp.Call call = getApiKeyUsageCall(authorization, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Usage
-     * With this interface you can receive the current api usage.
-     * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @return DefaultUsageResponse
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public DefaultUsageResponse getApiKeyUsage(String authorization) throws ApiException {
-        ApiResponse<DefaultUsageResponse> resp = getApiKeyUsageWithHttpInfo(authorization);
-        return resp.getData();
-    }
-
-    /**
-     * Usage
-     * With this interface you can receive the current api usage.
-     * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @return ApiResponse&lt;DefaultUsageResponse&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<DefaultUsageResponse> getApiKeyUsageWithHttpInfo(String authorization) throws ApiException {
-        com.squareup.okhttp.Call call = getApiKeyUsageValidateBeforeCall(authorization, null, null);
-        Type localVarReturnType = new TypeToken<DefaultUsageResponse>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Usage (asynchronously)
-     * With this interface you can receive the current api usage.
-     * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call getApiKeyUsageAsync(String authorization, final ApiCallback<DefaultUsageResponse> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = getApiKeyUsageValidateBeforeCall(authorization, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<DefaultUsageResponse>(){}.getType();
+        Type localVarReturnType = new TypeToken<DefaultOfTimestampResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
@@ -365,7 +237,7 @@ public class TimestampApi {
             });
         }
 
-        String[] localVarAuthNames = new String[] {  };
+        String[] localVarAuthNames = new String[] { "API Key Authorization" };
         return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
@@ -393,11 +265,11 @@ public class TimestampApi {
      * The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field \&quot;created\&quot; always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param hashString The hash in string representation. (required)
-     * @return DefaultTimestampResponse
+     * @return DefaultOfTimestampResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public DefaultTimestampResponse getHashStatus(String authorization, String hashString) throws ApiException {
-        ApiResponse<DefaultTimestampResponse> resp = getHashStatusWithHttpInfo(authorization, hashString);
+    public DefaultOfTimestampResponse getHashStatus(String authorization, String hashString) throws ApiException {
+        ApiResponse<DefaultOfTimestampResponse> resp = getHashStatusWithHttpInfo(authorization, hashString);
         return resp.getData();
     }
 
@@ -406,12 +278,12 @@ public class TimestampApi {
      * The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field \&quot;created\&quot; always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param hashString The hash in string representation. (required)
-     * @return ApiResponse&lt;DefaultTimestampResponse&gt;
+     * @return ApiResponse&lt;DefaultOfTimestampResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<DefaultTimestampResponse> getHashStatusWithHttpInfo(String authorization, String hashString) throws ApiException {
+    public ApiResponse<DefaultOfTimestampResponse> getHashStatusWithHttpInfo(String authorization, String hashString) throws ApiException {
         com.squareup.okhttp.Call call = getHashStatusValidateBeforeCall(authorization, hashString, null, null);
-        Type localVarReturnType = new TypeToken<DefaultTimestampResponse>(){}.getType();
+        Type localVarReturnType = new TypeToken<DefaultOfTimestampResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
@@ -424,7 +296,7 @@ public class TimestampApi {
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getHashStatusAsync(String authorization, String hashString, final ApiCallback<DefaultTimestampResponse> callback) throws ApiException {
+    public com.squareup.okhttp.Call getHashStatusAsync(String authorization, String hashString, final ApiCallback<DefaultOfTimestampResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -446,24 +318,25 @@ public class TimestampApi {
         }
 
         com.squareup.okhttp.Call call = getHashStatusValidateBeforeCall(authorization, hashString, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<DefaultTimestampResponse>(){}.getType();
+        Type localVarReturnType = new TypeToken<DefaultOfTimestampResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }
     /**
-     * Build call for getProof
+     * Build call for getHashStatusForUrlId
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param proofRequest Information needed to return the hash status information. (required)
+     * @param urlId The URL ID in UUID-4 format (required)
      * @param progressListener Progress listener
      * @param progressRequestListener Progress request listener
      * @return Call to execute
      * @throws ApiException If fail to serialize the request body object
      */
-    public com.squareup.okhttp.Call getProofCall(String authorization, ProofRequest proofRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = proofRequest;
+    public com.squareup.okhttp.Call getHashStatusForUrlIdCall(String authorization, String urlId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+        Object localVarPostBody = null;
 
         // create path and map variables
-        String localVarPath = "/v3/timestamp/proof";
+        String localVarPath = "/v3/timestamp/url/{url_id}"
+            .replaceAll("\\{" + "url_id" + "\\}", apiClient.escapeString(urlId.toString()));
 
         List<Pair> localVarQueryParams = new ArrayList<Pair>();
         List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
@@ -475,13 +348,13 @@ public class TimestampApi {
         Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
         final String[] localVarAccepts = {
-            "application/octet-stream"
+            "application/json"
         };
         final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
         if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
 
         final String[] localVarContentTypes = {
-            "application/json"
+            
         };
         final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
         localVarHeaderParams.put("Content-Type", localVarContentType);
@@ -498,66 +371,66 @@ public class TimestampApi {
             });
         }
 
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
+        String[] localVarAuthNames = new String[] { "API Key Authorization" };
+        return apiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
     }
 
     @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call getProofValidateBeforeCall(String authorization, ProofRequest proofRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
+    private com.squareup.okhttp.Call getHashStatusForUrlIdValidateBeforeCall(String authorization, String urlId, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
         
         // verify the required parameter 'authorization' is set
         if (authorization == null) {
-            throw new ApiException("Missing the required parameter 'authorization' when calling getProof(Async)");
+            throw new ApiException("Missing the required parameter 'authorization' when calling getHashStatusForUrlId(Async)");
         }
         
-        // verify the required parameter 'proofRequest' is set
-        if (proofRequest == null) {
-            throw new ApiException("Missing the required parameter 'proofRequest' when calling getProof(Async)");
+        // verify the required parameter 'urlId' is set
+        if (urlId == null) {
+            throw new ApiException("Missing the required parameter 'urlId' when calling getHashStatusForUrlId(Async)");
         }
         
 
-        com.squareup.okhttp.Call call = getProofCall(authorization, proofRequest, progressListener, progressRequestListener);
+        com.squareup.okhttp.Call call = getHashStatusForUrlIdCall(authorization, urlId, progressListener, progressRequestListener);
         return call;
 
     }
 
     /**
-     * Proof
-     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found herehttps://github.com/OriginStampTimestamping/originstamp-verification . Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time. As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.  The file name can be found in the header of the response. An example could look like this: content-disposition: attachment; filename&#x3D;\&quot;certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf\&quot; A sample XML file can be found here https://originstamp.org/assets/proof/proof_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.xml and a sample PDF can be found here https://originstamp.org/assets/proof/certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf .
+     * Status for URL ID
+     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field \&quot;created\&quot; always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param proofRequest Information needed to return the hash status information. (required)
-     * @return byte[]
+     * @param urlId The URL ID in UUID-4 format (required)
+     * @return DefaultOfTimestampResponse
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public byte[] getProof(String authorization, ProofRequest proofRequest) throws ApiException {
-        ApiResponse<byte[]> resp = getProofWithHttpInfo(authorization, proofRequest);
+    public DefaultOfTimestampResponse getHashStatusForUrlId(String authorization, String urlId) throws ApiException {
+        ApiResponse<DefaultOfTimestampResponse> resp = getHashStatusForUrlIdWithHttpInfo(authorization, urlId);
         return resp.getData();
     }
 
     /**
-     * Proof
-     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found herehttps://github.com/OriginStampTimestamping/originstamp-verification . Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time. As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.  The file name can be found in the header of the response. An example could look like this: content-disposition: attachment; filename&#x3D;\&quot;certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf\&quot; A sample XML file can be found here https://originstamp.org/assets/proof/proof_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.xml and a sample PDF can be found here https://originstamp.org/assets/proof/certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf .
+     * Status for URL ID
+     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field \&quot;created\&quot; always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param proofRequest Information needed to return the hash status information. (required)
-     * @return ApiResponse&lt;byte[]&gt;
+     * @param urlId The URL ID in UUID-4 format (required)
+     * @return ApiResponse&lt;DefaultOfTimestampResponse&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
-    public ApiResponse<byte[]> getProofWithHttpInfo(String authorization, ProofRequest proofRequest) throws ApiException {
-        com.squareup.okhttp.Call call = getProofValidateBeforeCall(authorization, proofRequest, null, null);
-        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
+    public ApiResponse<DefaultOfTimestampResponse> getHashStatusForUrlIdWithHttpInfo(String authorization, String urlId) throws ApiException {
+        com.squareup.okhttp.Call call = getHashStatusForUrlIdValidateBeforeCall(authorization, urlId, null, null);
+        Type localVarReturnType = new TypeToken<DefaultOfTimestampResponse>(){}.getType();
         return apiClient.execute(call, localVarReturnType);
     }
 
     /**
-     * Proof (asynchronously)
-     * This request can be used to proof a submission of a hash. This interface is required to request the evidence. With the help of this proof the verification of a timestamp independent from OriginStamp is necessary. A guide for the verification can be found herehttps://github.com/OriginStampTimestamping/originstamp-verification . Usually, the proof should be requested for each transferred hash and kept with the timestamped data so that an independent verification of the timestamp is possible at any time. As input, the used currency, the hash string and the type of proof is required. Then a file with the information for the submission proof will be returned. If the hash was submitted in an API version lower than 3, a XML file containing the essential information of the Merkle Tree will be returned. Otherwise, the seed file will be returned.  The file name can be found in the header of the response. An example could look like this: content-disposition: attachment; filename&#x3D;\&quot;certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf\&quot; A sample XML file can be found here https://originstamp.org/assets/proof/proof_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.xml and a sample PDF can be found here https://originstamp.org/assets/proof/certificate_6d70a947e19398f1106ad70a60bd34a8305bdcb624b5b7d43782315517e79cad.pdf .
+     * Status for URL ID (asynchronously)
+     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field \&quot;created\&quot; always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param proofRequest Information needed to return the hash status information. (required)
+     * @param urlId The URL ID in UUID-4 format (required)
      * @param callback The callback to be executed when the API call finishes
      * @return The request call
      * @throws ApiException If fail to process the API call, e.g. serializing the request body object
      */
-    public com.squareup.okhttp.Call getProofAsync(String authorization, ProofRequest proofRequest, final ApiCallback<byte[]> callback) throws ApiException {
+    public com.squareup.okhttp.Call getHashStatusForUrlIdAsync(String authorization, String urlId, final ApiCallback<DefaultOfTimestampResponse> callback) throws ApiException {
 
         ProgressResponseBody.ProgressListener progressListener = null;
         ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
@@ -578,141 +451,8 @@ public class TimestampApi {
             };
         }
 
-        com.squareup.okhttp.Call call = getProofValidateBeforeCall(authorization, proofRequest, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<byte[]>(){}.getType();
-        apiClient.executeAsync(call, localVarReturnType, callback);
-        return call;
-    }
-    /**
-     * Build call for triggerTimestampWebhook
-     * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param webhookRequest DTO for webhook request. (required)
-     * @param progressListener Progress listener
-     * @param progressRequestListener Progress request listener
-     * @return Call to execute
-     * @throws ApiException If fail to serialize the request body object
-     */
-    public com.squareup.okhttp.Call triggerTimestampWebhookCall(String authorization, WebhookRequest webhookRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        Object localVarPostBody = webhookRequest;
-
-        // create path and map variables
-        String localVarPath = "/v3/webhook/start";
-
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        if (authorization != null)
-        localVarHeaderParams.put("Authorization", apiClient.parameterToString(authorization));
-
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        final String[] localVarAccepts = {
-            "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-        if (localVarAccept != null) localVarHeaderParams.put("Accept", localVarAccept);
-
-        final String[] localVarContentTypes = {
-            "application/json"
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-        localVarHeaderParams.put("Content-Type", localVarContentType);
-
-        if(progressListener != null) {
-            apiClient.getHttpClient().networkInterceptors().add(new com.squareup.okhttp.Interceptor() {
-                @Override
-                public com.squareup.okhttp.Response intercept(com.squareup.okhttp.Interceptor.Chain chain) throws IOException {
-                    com.squareup.okhttp.Response originalResponse = chain.proceed(chain.request());
-                    return originalResponse.newBuilder()
-                    .body(new ProgressResponseBody(originalResponse.body(), progressListener))
-                    .build();
-                }
-            });
-        }
-
-        String[] localVarAuthNames = new String[] {  };
-        return apiClient.buildCall(localVarPath, "POST", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, progressRequestListener);
-    }
-
-    @SuppressWarnings("rawtypes")
-    private com.squareup.okhttp.Call triggerTimestampWebhookValidateBeforeCall(String authorization, WebhookRequest webhookRequest, final ProgressResponseBody.ProgressListener progressListener, final ProgressRequestBody.ProgressRequestListener progressRequestListener) throws ApiException {
-        
-        // verify the required parameter 'authorization' is set
-        if (authorization == null) {
-            throw new ApiException("Missing the required parameter 'authorization' when calling triggerTimestampWebhook(Async)");
-        }
-        
-        // verify the required parameter 'webhookRequest' is set
-        if (webhookRequest == null) {
-            throw new ApiException("Missing the required parameter 'webhookRequest' when calling triggerTimestampWebhook(Async)");
-        }
-        
-
-        com.squareup.okhttp.Call call = triggerTimestampWebhookCall(authorization, webhookRequest, progressListener, progressRequestListener);
-        return call;
-
-    }
-
-    /**
-     * Dev
-     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 . Usually, the webhook is triggered as soon as the tamper-proof time stamp with the selected crypto currency has been created.
-     * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param webhookRequest DTO for webhook request. (required)
-     * @return Defaultstring
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public Defaultstring triggerTimestampWebhook(String authorization, WebhookRequest webhookRequest) throws ApiException {
-        ApiResponse<Defaultstring> resp = triggerTimestampWebhookWithHttpInfo(authorization, webhookRequest);
-        return resp.getData();
-    }
-
-    /**
-     * Dev
-     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 . Usually, the webhook is triggered as soon as the tamper-proof time stamp with the selected crypto currency has been created.
-     * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param webhookRequest DTO for webhook request. (required)
-     * @return ApiResponse&lt;Defaultstring&gt;
-     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
-     */
-    public ApiResponse<Defaultstring> triggerTimestampWebhookWithHttpInfo(String authorization, WebhookRequest webhookRequest) throws ApiException {
-        com.squareup.okhttp.Call call = triggerTimestampWebhookValidateBeforeCall(authorization, webhookRequest, null, null);
-        Type localVarReturnType = new TypeToken<Defaultstring>(){}.getType();
-        return apiClient.execute(call, localVarReturnType);
-    }
-
-    /**
-     * Dev (asynchronously)
-     * With this interface you can trigger manual webhook to see how a webhooks looks like. Please use a hash, that was already timestamped before such as https://originstamp.org/s/9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 . Usually, the webhook is triggered as soon as the tamper-proof time stamp with the selected crypto currency has been created.
-     * @param authorization A valid API key is essential for authorization to handle the request. (required)
-     * @param webhookRequest DTO for webhook request. (required)
-     * @param callback The callback to be executed when the API call finishes
-     * @return The request call
-     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
-     */
-    public com.squareup.okhttp.Call triggerTimestampWebhookAsync(String authorization, WebhookRequest webhookRequest, final ApiCallback<Defaultstring> callback) throws ApiException {
-
-        ProgressResponseBody.ProgressListener progressListener = null;
-        ProgressRequestBody.ProgressRequestListener progressRequestListener = null;
-
-        if (callback != null) {
-            progressListener = new ProgressResponseBody.ProgressListener() {
-                @Override
-                public void update(long bytesRead, long contentLength, boolean done) {
-                    callback.onDownloadProgress(bytesRead, contentLength, done);
-                }
-            };
-
-            progressRequestListener = new ProgressRequestBody.ProgressRequestListener() {
-                @Override
-                public void onRequestProgress(long bytesWritten, long contentLength, boolean done) {
-                    callback.onUploadProgress(bytesWritten, contentLength, done);
-                }
-            };
-        }
-
-        com.squareup.okhttp.Call call = triggerTimestampWebhookValidateBeforeCall(authorization, webhookRequest, progressListener, progressRequestListener);
-        Type localVarReturnType = new TypeToken<Defaultstring>(){}.getType();
+        com.squareup.okhttp.Call call = getHashStatusForUrlIdValidateBeforeCall(authorization, urlId, progressListener, progressRequestListener);
+        Type localVarReturnType = new TypeToken<DefaultOfTimestampResponse>(){}.getType();
         apiClient.executeAsync(call, localVarReturnType, callback);
         return call;
     }

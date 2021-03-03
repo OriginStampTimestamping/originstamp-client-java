@@ -4,16 +4,16 @@ All URIs are relative to *https://api.originstamp.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**getNextSchedulingTime**](SchedulerApi.md#getNextSchedulingTime) | **POST** /v3/submission/times | NextSchedule
+[**getActiveCurrencies**](SchedulerApi.md#getActiveCurrencies) | **GET** /v3/currencies/get | Get active currencies
 
 
-<a name="getNextSchedulingTime"></a>
-# **getNextSchedulingTime**
-> DefaultSchedulerResponse getNextSchedulingTime(authorization, schedulerRequest)
+<a name="getActiveCurrencies"></a>
+# **getActiveCurrencies**
+> DefaultOfListOfCurrencyModel getActiveCurrencies(authorization)
 
-NextSchedule
+Get active currencies
 
-Get the next scheduling time for hash submissions to the blockchain.
+Returns an array with all active currencies.
 
 ### Example
 ```java
@@ -21,15 +21,13 @@ Get the next scheduling time for hash submissions to the blockchain.
 //import com.originstamp.api.client.ApiException;
 //import com.originstamp.api.SchedulerApi;
 
-
 SchedulerApi apiInstance = new SchedulerApi();
 String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
-SchedulerRequest schedulerRequest = new SchedulerRequest(); // SchedulerRequest | Request DTO for next schedules.
 try {
-    DefaultSchedulerResponse result = apiInstance.getNextSchedulingTime(authorization, schedulerRequest);
+    DefaultOfListOfCurrencyModel result = apiInstance.getActiveCurrencies(authorization);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling SchedulerApi#getNextSchedulingTime");
+    System.err.println("Exception when calling SchedulerApi#getActiveCurrencies");
     e.printStackTrace();
 }
 ```
@@ -39,14 +37,17 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **String**| A valid API key is essential for authorization to handle the request. |
- **schedulerRequest** | [**SchedulerRequest**](SchedulerRequest.md)| Request DTO for next schedules. |
 
 ### Return type
 
-[**DefaultSchedulerResponse**](DefaultSchedulerResponse.md)
+[**DefaultOfListOfCurrencyModel**](DefaultOfListOfCurrencyModel.md)
+
+### Authorization
+
+[API Key Authorization](../README.md#API Key Authorization)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
