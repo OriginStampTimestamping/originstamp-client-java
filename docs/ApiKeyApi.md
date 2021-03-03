@@ -42,9 +42,6 @@ Name | Type | Description  | Notes
 
 [**DefaultUsageResponse**](DefaultUsageResponse.md)
 
-### Authorization
-
-[API Key Authorization](../README.md#API Key Authorization)
 
 ### HTTP request headers
 

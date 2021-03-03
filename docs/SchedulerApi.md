@@ -42,10 +42,6 @@ Name | Type | Description  | Notes
 
 [**DefaultOfListOfCurrencyModel**](DefaultOfListOfCurrencyModel.md)
 
-### Authorization
-
-[API Key Authorization](../README.md#API Key Authorization)
-
 ### HTTP request headers
 
  - **Content-Type**: Not defined

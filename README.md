@@ -76,17 +76,15 @@ Please follow the [installation](#installation) instruction and execute the foll
 import com.originstamp.api.client.ApiException;
 import com.originstamp.api.TimestampApi;
 
-
-
 TimestampApi apiInstance = new TimestampApi();
 String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
 TimestampRequest timestampRequest = new TimestampRequest(); // TimestampRequest | DTO for the hash submission. Add all relevant information concerning your hash submission.
 try {
-DefaultTimestampResponse result = apiInstance.createTimestamp(authorization, timestampRequest);
-System.out.println(result);
+    DefaultTimestampResponse result = apiInstance.createTimestamp(authorization, timestampRequest);
+    System.out.println(result);
 } catch (ApiException e) {
-System.err.println("Exception when calling TimestampApi#createTimestamp");
-e.printStackTrace();
+    System.err.println("Exception when calling TimestampApi#createTimestamp");
+    e.printStackTrace();
 }
 
 ```

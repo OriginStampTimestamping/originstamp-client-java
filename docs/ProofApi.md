@@ -44,9 +44,6 @@ Name | Type | Description  | Notes
 
 [**DefaultOfDownloadLinkResponse**](DefaultOfDownloadLinkResponse.md)
 
-### Authorization
-
-[API Key Authorization](../README.md#API Key Authorization)
 
 ### HTTP request headers
 

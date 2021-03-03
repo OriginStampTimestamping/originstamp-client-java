@@ -138,10 +138,6 @@ Name | Type | Description  | Notes
 
 [**DefaultOfstring**](DefaultOfstring.md)
 
-### Authorization
-
-[API Key Authorization](../README.md#API Key Authorization)
-
 ### HTTP request headers
 
  - **Content-Type**: application/json

@@ -138,10 +138,6 @@ Name | Type | Description  | Notes
 
 [**DefaultOfTimestampResponse**](DefaultOfTimestampResponse.md)
 
-### Authorization
-
-[API Key Authorization](../README.md#API Key Authorization)
-
 ### HTTP request headers
 
  - **Content-Type**: Not defined
