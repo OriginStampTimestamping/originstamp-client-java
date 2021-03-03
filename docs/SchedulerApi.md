@@ -42,6 +42,7 @@ Name | Type | Description  | Notes
 
 [**DefaultOfListOfCurrencyModel**](DefaultOfListOfCurrencyModel.md)
 
+
 ### HTTP request headers
 
  - **Content-Type**: Not defined

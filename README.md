@@ -15,7 +15,6 @@ OriginStamp is a trusted timestamping service that uses the decentralized blockc
 For more information, please visit [https://originstamp.com](https://originstamp.com)
 
 
-
 ## Requirements
 
 Building and using the API client library requires:
