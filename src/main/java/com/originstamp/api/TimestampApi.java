@@ -262,7 +262,7 @@ public class TimestampApi {
 
     /**
      * Status
-     * The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field \&quot;created\&quot; always set to false.
+     * The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field "created" always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param hashString The hash in string representation. (required)
      * @return DefaultOfTimestampResponse
@@ -275,7 +275,7 @@ public class TimestampApi {
 
     /**
      * Status
-     * The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field \&quot;created\&quot; always set to false.
+     * The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field "created" always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param hashString The hash in string representation. (required)
      * @return ApiResponse&lt;DefaultOfTimestampResponse&gt;
@@ -289,7 +289,7 @@ public class TimestampApi {
 
     /**
      * Status (asynchronously)
-     * The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field \&quot;created\&quot; always set to false.
+     * The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field "created" always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param hashString The hash in string representation. (required)
      * @param callback The callback to be executed when the API call finishes
@@ -396,7 +396,7 @@ public class TimestampApi {
 
     /**
      * Status for URL ID
-     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field \&quot;created\&quot; always set to false.
+     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field "created" always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param urlId The URL ID in UUID-4 format (required)
      * @return DefaultOfTimestampResponse
@@ -409,7 +409,7 @@ public class TimestampApi {
 
     /**
      * Status for URL ID
-     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field \&quot;created\&quot; always set to false.
+     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field "created" always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param urlId The URL ID in UUID-4 format (required)
      * @return ApiResponse&lt;DefaultOfTimestampResponse&gt;
@@ -423,7 +423,7 @@ public class TimestampApi {
 
     /**
      * Status for URL ID (asynchronously)
-     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field \&quot;created\&quot; always set to false.
+     * The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field "created" always set to false.
      * @param authorization A valid API key is essential for authorization to handle the request. (required)
      * @param urlId The URL ID in UUID-4 format (required)
      * @param callback The callback to be executed when the API call finishes

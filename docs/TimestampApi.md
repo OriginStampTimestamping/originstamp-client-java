@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 
 Status
 
-The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field \&quot;created\&quot; always set to false.
+The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field "created" always set to false.
 
 ### Example
 ```java
@@ -103,7 +103,7 @@ Name | Type | Description  | Notes
 
 Status for URL ID
 
-The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field \&quot;created\&quot; always set to false.
+The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field "created" always set to false.
 
 ### Example
 ```java
