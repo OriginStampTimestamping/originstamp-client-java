@@ -17,56 +17,43 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.originstamp.model.TimestampRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Contains the currency ID and currency name
+ * Request object for bulk timestamping request.
  */
-@ApiModel(description = "Contains the currency ID and currency name")
+@ApiModel(description = "Request object for bulk timestamping request.")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-18T14:06:09.411+01:00")
-public class CurrencyModel {
-  @SerializedName("currency")
-  private String currency = null;
+public class TimestampBulkRequest {
+  @SerializedName("timestamps")
+  private List<TimestampRequest> timestamps = new ArrayList<>();
 
-  @SerializedName("currency_id")
-  private Long currencyId = null;
+  public TimestampBulkRequest timestamps(List<TimestampRequest> timestamps) {
+    this.timestamps = timestamps;
+    return this;
+  }
 
-  public CurrencyModel currency(String currency) {
-    this.currency = currency;
+  public TimestampBulkRequest addTimestampsItem(TimestampRequest timestampsItem) {
+    this.timestamps.add(timestampsItem);
     return this;
   }
 
    /**
-   * Name of the currency (uppercase)
-   * @return currency
+   * Array of timestamp request DTOs which will be timestamped.
+   * @return timestamps
   **/
-  @ApiModelProperty(value = "Name of the currency (uppercase)")
-  public String getCurrency() {
-    return currency;
+  @ApiModelProperty(required = true, value = "Array of timestamp request DTOs which will be timestamped.")
+  public List<TimestampRequest> getTimestamps() {
+    return timestamps;
   }
 
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
-
-  public CurrencyModel currencyId(Long currencyId) {
-    this.currencyId = currencyId;
-    return this;
-  }
-
-   /**
-   * ID of the currency, e.g. 0: Bitcoin 1: Ethereum
-   * @return currencyId
-  **/
-  @ApiModelProperty(value = "ID of the currency, e.g. 0: Bitcoin 1: Ethereum")
-  public Long getCurrencyId() {
-    return currencyId;
-  }
-
-  public void setCurrencyId(Long currencyId) {
-    this.currencyId = currencyId;
+  public void setTimestamps(List<TimestampRequest> timestamps) {
+    this.timestamps = timestamps;
   }
 
 
@@ -78,24 +65,22 @@ public class CurrencyModel {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CurrencyModel currencyModel = (CurrencyModel) o;
-    return Objects.equals(this.currency, currencyModel.currency) &&
-        Objects.equals(this.currencyId, currencyModel.currencyId);
+    TimestampBulkRequest timestampBulkRequest = (TimestampBulkRequest) o;
+    return Objects.equals(this.timestamps, timestampBulkRequest.timestamps);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(currency, currencyId);
+    return Objects.hash(timestamps);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CurrencyModel {\n");
+    sb.append("class TimestampBulkRequest {\n");
     
-    sb.append("    currency: ").append(toIndentedString(currency)).append("\n");
-    sb.append("    currencyId: ").append(toIndentedString(currencyId)).append("\n");
+    sb.append("    timestamps: ").append(toIndentedString(timestamps)).append("\n");
     sb.append("}");
     return sb.toString();
   }

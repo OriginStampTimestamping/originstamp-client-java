@@ -17,6 +17,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.originstamp.model.TimestampData;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
@@ -26,9 +27,9 @@ import java.io.IOException;
  */
 @ApiModel(description = "The default service response object uses error code and message to indicate errors. These errors are handled by the client.")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2021-03-18T14:06:09.411+01:00")
-public class DefaultOfstring {
+public class DefaultOfTimestampData {
   @SerializedName("data")
-  private String data = null;
+  private TimestampData data = null;
 
   @SerializedName("error_code")
   private Integer errorCode = null;
@@ -36,7 +37,7 @@ public class DefaultOfstring {
   @SerializedName("error_message")
   private String errorMessage = null;
 
-  public DefaultOfstring data(String data) {
+  public DefaultOfTimestampData data(TimestampData data) {
     this.data = data;
     return this;
   }
@@ -46,15 +47,15 @@ public class DefaultOfstring {
    * @return data
   **/
   @ApiModelProperty(value = "Generic response object which contains the response data, e.g. timestamp information.")
-  public String getData() {
+  public TimestampData getData() {
     return data;
   }
 
-  public void setData(String data) {
+  public void setData(TimestampData data) {
     this.data = data;
   }
 
-  public DefaultOfstring errorCode(Integer errorCode) {
+  public DefaultOfTimestampData errorCode(Integer errorCode) {
     this.errorCode = errorCode;
     return this;
   }
@@ -72,7 +73,7 @@ public class DefaultOfstring {
     this.errorCode = errorCode;
   }
 
-  public DefaultOfstring errorMessage(String errorMessage) {
+  public DefaultOfTimestampData errorMessage(String errorMessage) {
     this.errorMessage = errorMessage;
     return this;
   }
@@ -99,10 +100,10 @@ public class DefaultOfstring {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DefaultOfstring defaultOfstring = (DefaultOfstring) o;
-    return Objects.equals(this.data, defaultOfstring.data) &&
-        Objects.equals(this.errorCode, defaultOfstring.errorCode) &&
-        Objects.equals(this.errorMessage, defaultOfstring.errorMessage);
+    DefaultOfTimestampData defaultOfTimestampData = (DefaultOfTimestampData) o;
+    return Objects.equals(this.data, defaultOfTimestampData.data) &&
+        Objects.equals(this.errorCode, defaultOfTimestampData.errorCode) &&
+        Objects.equals(this.errorMessage, defaultOfTimestampData.errorMessage);
   }
 
   @Override
@@ -114,7 +115,7 @@ public class DefaultOfstring {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DefaultOfstring {\n");
+    sb.append("class DefaultOfTimestampData {\n");
     
     sb.append("    data: ").append(toIndentedString(data)).append("\n");
     sb.append("    errorCode: ").append(toIndentedString(errorCode)).append("\n");

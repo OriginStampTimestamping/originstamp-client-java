@@ -57,7 +57,7 @@ Name | Type | Description  | Notes
 
 <a name="registerWebhookNotification"></a>
 # **registerWebhookNotification**
-> ModelDefault registerWebhookNotification(authorization, webhookRequest)
+> DefaultOfVoid registerWebhookNotification(authorization, webhookRequest)
 
 Webhook
 
@@ -73,7 +73,7 @@ WebhookApi apiInstance = new WebhookApi();
 String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
 WebhookRequest webhookRequest = new WebhookRequest(); // WebhookRequest | DTO for querying webhook information.
 try {
-    ModelDefault result = apiInstance.registerWebhookNotification(authorization, webhookRequest);
+    DefaultOfVoid result = apiInstance.registerWebhookNotification(authorization, webhookRequest);
     System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling WebhookApi#registerWebhookNotification");
@@ -90,7 +90,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ModelDefault**](ModelDefault.md)
+[**DefaultOfVoid**](DefaultOfVoid.md)
 
 ### Authorization
 
