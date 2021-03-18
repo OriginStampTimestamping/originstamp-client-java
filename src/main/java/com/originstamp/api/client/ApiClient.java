@@ -965,6 +965,7 @@ public class ApiClient {
 
         final String url = buildUrl(path, queryParams, collectionQueryParams);
         final Request.Builder reqBuilder = new Request.Builder().url(url);
+        headerParams.put("User-Agent", "OriginStamp Client Java/2.0 (Java/" + System.getProperty("java.version") + ")");
         processHeaderParams(headerParams, reqBuilder);
 
         String contentType = (String) headerParams.get("Content-Type");
