@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 Usage
 
-With this interface you can receive the current api usage.
+With this interface you can receive the current usage of your API key. The usage statistic refers to the associated account.
 
 ### Example
 ```java

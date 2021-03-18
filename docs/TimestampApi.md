@@ -4,9 +4,9 @@ All URIs are relative to *https://api.originstamp.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createTimestamp**](TimestampApi.md#createTimestamp) | **POST** /v3/timestamp/create | Submission
-[**getHashStatus**](TimestampApi.md#getHashStatus) | **GET** /v3/timestamp/{hash_string} | Status
-[**getHashStatusForUrlId**](TimestampApi.md#getHashStatusForUrlId) | **GET** /v3/timestamp/url/{url_id} | Status for URL ID
+[**createTimestamp**](TimestampApi.md#createTimestamp) | **POST** /v4/timestamp/create | Submission
+[**getHashStatus**](TimestampApi.md#getHashStatus) | **GET** /v4/timestamp/{hash_string} | Status
+[**getSeedStatus**](TimestampApi.md#getSeedStatus) | **GET** /v4/timestamp/status/seed/{seed_id} | Seed Status
 
 
 <a name="createTimestamp"></a>
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 Submission
 
-You can submit your hash with this function. If your api key is valid, your hash is added to batch and is scheduled for timestamping. If the hash already exists, the created flag in the response is set to false and the notification(s) of the current request will be totally ignored. You are also able to submit additional information, such as comment or notification credentials. Once a hash is successfully created for a certain crypto-currency, we can notify your desired target with the timestamp information (POST Request). The webhook is triggered as soon as the tamper-proof timestamp with the selected crypto currency has been created. Additionally, it is possible to include a preprint URL in the hash submission. Before the generation of the timestamp hash you can create a random UUID Version 4 and include https://originstamp.com/u/UUID where UUID is your UUID e.g. in a document you want to timestamp. In the preprint URL field you include your UUID and then it is possible to verify the timestamp within the document (or whatever). 
+With this interface you can submit your hash. If your API key is valid, your hash is added  seeds and scheduled for timestamping. You are also able to submit additional information, such as a comment or notification target. If the hash already exists, the &#39;created&#39; field in the response is set to &#39;false&#39; and any notification(s) for this hash will be ignored. To later query the status of the hash for a certain blockchain you can use the &#39;seed_id&#39; field of its inner timestamp structure. This field can be used to query the timestamping status of the selected seed. This is recommended if a large number of hashes were transmitted in a certain time frame. Once a hash is successfully created for a certain crypto currency, we can notify your desired target with the timestamp information (via POST Request). A webhook is triggered as soon as the tamper-proof timestamp with the selected crypto currency has been created. 
 
 ### Example
 ```java
@@ -61,7 +61,7 @@ Name | Type | Description  | Notes
 
 Status
 
-The request returns information of a certain hash read from the URL parameter. The input parameter is a hash in hex representation. Field "created" always set to false.
+This interface returns information of a certain hash read from the URL path. If the status of several hashes is to be checked, it is preferable to use the seed status interface. This reduces the required requests and can be tailored to a desired blockchain. All &#39;created&#39; fields are always set to false for a status request.
 
 ### Example
 ```java
@@ -94,16 +94,16 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 
-<a name="getHashStatusForUrlId"></a>
-# **getHashStatusForUrlId**
-> DefaultOfTimestampResponse getHashStatusForUrlId(authorization, urlId)
+<a name="getSeedStatus"></a>
+# **getSeedStatus**
+> DefaultOfTimestampData getSeedStatus(authorization, seedId)
 
-Status for URL ID
+Seed Status
 
-The request returns information of a certain URL ID read from the URL parameter. The input parameter is the corresponding UUID-4. Field "created" always set to false.
+With this interface you can request the status for a certain seed. This is used when checking the status of previously submitted hashes and avoids sending individual status requests for each hash.
 
 ### Example
 ```java
@@ -113,12 +113,12 @@ The request returns information of a certain URL ID read from the URL parameter.
 
 TimestampApi apiInstance = new TimestampApi();
 String authorization = "authorization_example"; // String | A valid API key is essential for authorization to handle the request.
-String urlId = "urlId_example"; // String | The URL ID in UUID-4 format
+String seedId = "seedId_example"; // String | ID of the timestamp seed
 try {
-    DefaultOfTimestampResponse result = apiInstance.getHashStatusForUrlId(authorization, urlId);
+    DefaultOfTimestampData result = apiInstance.getSeedStatus(authorization, seedId);
     System.out.println(result);
 } catch (ApiException e) {
-    System.err.println("Exception when calling TimestampApi#getHashStatusForUrlId");
+    System.err.println("Exception when calling TimestampApi#getSeedStatus");
     e.printStackTrace();
 }
 ```
@@ -128,15 +128,15 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **authorization** | **String**| A valid API key is essential for authorization to handle the request. |
- **urlId** | **String**| The URL ID in UUID-4 format |
+ **seedId** | **String**| ID of the timestamp seed |
 
 ### Return type
 
-[**DefaultOfTimestampResponse**](DefaultOfTimestampResponse.md)
+[**DefaultOfTimestampData**](DefaultOfTimestampData.md)
 
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json
 

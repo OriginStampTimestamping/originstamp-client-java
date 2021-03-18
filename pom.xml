@@ -1,36 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>swagger-java-client</artifactId>
+    <groupId>com.originstamp</groupId>
+    <artifactId>originstamp-client-java</artifactId>
     <packaging>jar</packaging>
-    <name>swagger-java-client</name>
-    <version>1.0.0</version>
-    <url>https://github.com/swagger-api/swagger-codegen</url>
-    <description>Swagger Java</description>
-    <scm>
-        <connection>scm:git:git@github.com:swagger-api/swagger-codegen.git</connection>
-        <developerConnection>scm:git:git@github.com:swagger-api/swagger-codegen.git</developerConnection>
-        <url>https://github.com/swagger-api/swagger-codegen</url>
-    </scm>
-
-    <licenses>
-        <license>
-            <name>Unlicense</name>
-            <url>http://unlicense.org</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <name>Swagger</name>
-            <email>apiteam@swagger.io</email>
-            <organization>Swagger</organization>
-            <organizationUrl>http://swagger.io</organizationUrl>
-        </developer>
-    </developers>
-
+    <name>originstamp-client-java</name>
+    <version>2.0.0</version>
+    <url>https://github.com/OriginStampTimestamping/originstamp-client-java</url>
+    <description>OriginStamp Java Client</description>
+    
     <build>
         <plugins>
             <plugin>
@@ -220,7 +198,6 @@
             <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
     <properties>
         <java.version>1.8</java.version>
